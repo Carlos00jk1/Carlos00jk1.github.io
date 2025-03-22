@@ -9,9 +9,83 @@
     <title>FLORES</title>
     
 </head>
-<div class="description">
-  <span>Tengo un regalo especial para ti!!</span>
+
+<div class="description" id="message" style="font-size: 2rem; color: white; text-align: left; position: absolute; top: 10%; left: 3%; transform: translateY(-50%); z-index: 9999; background-color: rgba(0, 0, 0, 0.5); font-weight: bold;">
+  <span>Mi amor, tengo algo muy especial para ti... 🌹</span>
 </div>
+
+<div class="description" id="longMessage" style="font-size: 1.5rem; color: white; text-align: left; position: absolute; top: 20%; left: 3%; transform: translateY(-50%); z-index: 9999; background-color: rgba(0, 0, 0, 0.5); font-weight: bold; max-width: 80%; line-height: 1.5; opacity: 0;">
+  <span id="line1"></span><br>
+  <span id="line2"></span><br>
+  <span id="line3"></span><br>
+  <span id="line4"></span><br>
+  <span id="line5"></span>
+</div>
+
+<!-- Imagen que se mostrará al final -->
+<img id="specialImage" src="img/LoveG.webp" alt="Imagen especial" style="width: 450px; height: auto; position: absolute; top: 50%; left: 3%; transform: translateY(-50%); opacity: 0; z-index: 9999;">
+
+<script>
+  window.addEventListener('load', () => {
+    const message = document.getElementById('message');
+    const longMessage = document.getElementById('longMessage');
+    const specialImage = document.getElementById('specialImage');
+    
+    // Mostrar el primer mensaje después de 1 segundo
+    setTimeout(() => {
+      message.style.opacity = 1;
+    }, 1000); // Aparece después de 1 segundo
+
+    // Hacer desaparecer el primer mensaje después de 5 segundos
+    setTimeout(() => {
+      message.style.display = 'none';
+    }, 5000); // Se desvanece después de 5 segundos
+
+    // Mostrar el segundo mensaje línea por línea después de 6 segundos
+    setTimeout(() => {
+      longMessage.style.opacity = 1;
+
+      const lines = [
+        "Desde que llegaste a mi vida, todo tiene más sentido. 💖",
+        "Cada momento contigo me hace sentir el ser más afortunado del mundo. 🌸",
+        "Tu amor es el regalo más hermoso que me ha dado la vida, y cada día a tu lado es un sueño hecho realidad. 🌼",
+        "No importa lo que pase, siempre te elijo a ti, porque eres mi todo. 💕",
+        "Gracias por ser mi razón, mi inspiración y por hacerme sentir tan especial. Te amo más de lo que las palabras pueden decir. 🌟"
+      ];
+
+      // Mostrar cada línea con un retraso
+      lines.forEach((line, index) => {
+        setTimeout(() => {
+          document.getElementById(`line${index + 1}`).textContent = line;
+        }, index * 4000); // Cada línea aparece después de 4 segundos
+      });
+    }, 6000); // Comienza a aparecer después de 6 segundos
+
+    // Hacer desaparecer el segundo mensaje después de 30 segundos (tiempo extendido)
+    setTimeout(() => {
+      longMessage.style.opacity = 0;
+    }, 30000); // Se desvanece después de 30 segundos
+
+    // Mostrar la imagen después de que aparezca el último texto (después de 30 segundos)
+    setTimeout(() => {
+      specialImage.style.opacity = 1;
+    }, 30000); // Aparece después de que el mensaje se desvanece
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <audio controls autoplay>
   <source src="Floricienta.mp3" type="audio/mpeg">
 
