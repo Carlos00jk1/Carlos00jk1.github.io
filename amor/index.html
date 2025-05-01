@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 Meses de Amor ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe6ee 100%);
+            color: #5a4a4a;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Corazones flotantes */
+        .floating-heart {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: float-heart 6s ease-in infinite;
+            z-index: 0;
+        }
+        
+        @keyframes float-heart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.7; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Contenedor principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Tarjeta de aniversario */
+        .anniversary-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 192, 203, 0.3);
+        }
+        
+        .anniversary-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Estilo de títulos */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #d23669;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: #9e6b8b;
+            font-weight: 700;
+            margin-top: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        h2:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Foto principal */
+        .main-photo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid #ffcdc2;
+            box-shadow: 0 10px 25px rgba(210, 54, 105, 0.2);
+            margin: 20px 0;
+            transition: all 0.5s;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+        }
+        
+        .main-photo:hover {
+            transform: rotate(5deg) scale(1.1);
+            border-color: #d23669;
+            box-shadow: 0 15px 30px rgba(210, 54, 105, 0.3);
+        }
+        
+        /* Mensaje oculto */
+        .hidden-message {
+            display: none;
+            font-style: italic;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 245, 245, 0.7);
+            border-radius: 15px;
+            border-left: 5px solid #d23669;
+            animation: fadeIn 1.5s;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hidden-message::before {
+            content: '❤️';
+            position: absolute;
+            font-size: 5rem;
+            right: 20px;
+            bottom: 10px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Botón elegante */
+        .elegant-btn {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+        }
+        
+        .elegant-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            transition: all 0.5s;
+        }
+        
+        .elegant-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .elegant-btn:hover::after {
+            left: 100%;
+        }
+        
+        /* Galería de fotos */
+        .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    width: 100%;
+}
+
+.gallery-item {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(210, 54, 105, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    object-fit: contain; /* Muestra toda la imagen sin recortar */
+    background: white;
+    padding: 5px;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(210, 54, 105, 0.3);
+}
+
+/* Para móviles */
+@media (max-width: 768px) {
+    .photo-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+}
+        /* Snoopy escondido */
+        .snoopy-easter-egg {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            opacity: 0.8;
+            transition: all 0.5s;
+            cursor: pointer;
+            z-index: 100;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        
+        .snoopy-easter-egg:hover {
+            opacity: 1;
+            transform: scale(1.2) rotate(-15deg);
+            animation: none;
+        }
+        
+        /* Efecto de confeti */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+        
+        /* Efecto de niebla rosa */
+        .pink-mist {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at center,
+                rgba(255, 192, 203, 0.1) 0%,
+                rgba(255, 255, 255, 0) 70%
+            );
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Mensaje flotante */
+        .floating-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            display: none;
+            animation: fadeIn 0.5s;
+            max-width: 80%;
+            text-align: center;
+            border: 2px solid #ffcdc2;
+        }
+        
+        .floating-message button {
+            background: #ff9a9e;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        
+        /* Reproductor de música */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 10px 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .music-player button {
+            background: #ff9a9e;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .music-player p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #d23669;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Efectos visuales -->
+    <div class="pink-mist"></div>
+    <div id="confetti-canvas"></div>
+    
+    <!-- Corazones flotantes -->
+    <div id="hearts-container"></div>
+    
+    <!-- Reproductor de música -->
+    <div class="music-player">
+        <button id="musicToggle">▶️</button>
+        <p>Dale Play :3</p>
+    </div>
+    
+    <!-- Snoopy escondido -->
+    <img src="https://i.imgur.com/WpJvD7Z.png" class="snoopy-easter-egg" alt="Snoopy" onclick="showSnoopyMessage()" title="¡Hazme clic!">
+    
+    <!-- Mensaje flotante -->
+    <div id="floatingMessage" class="floating-message">
+        <h3 style="color: #d23669; margin-top: 0;">¡Te amo!</h3>
+        <p id="dynamicMessage">Eres lo mejor que me ha pasado ❤️</p>
+        <button onclick="document.getElementById('floatingMessage').style.display = 'none'">Cerrar</button>
+    </div>
+    
+    <!-- Contenido principal -->
+    <div class="container">
+        <div class="anniversary-card">
+            <h1>Tres meses de amor contigo</h1>
+            <img src="ChatGPT Image 1 may 2025, 02_46_12 a.m..png" class="main-photo" alt="Nuestro momento">
+            <p style="font-size: 1.2rem;">No sé cómo lo haces, pero hasta en la distancia logras robarme sonrisas todos los días.</p>
+            
+            <button class="elegant-btn" onclick="showMessage()">Abre esto ❤️</button>
+            
+            <div id="hiddenMessage" class="hidden-message">
+                "No necesito un calendario para saber que cada día a tu lado (aunque sea por llamada)<br> 
+                es mi día favorito. <br><br>
+                - El tuyo para siempre."
+            </div>
+        </div>
+        
+        <div class="anniversary-card">
+            <h2>Cuando nos volvamos a ver</h2>
+            <div class="countdown">
+                Pronto estaré abrazándote de nuevo...<br>
+                <small>(Y ese día haré esto: <span id="randomPlan">cocinar tu comida favorita</span>)</small>
+            </div>
+            <p style="font-style: italic;">Mientras tanto, guardo todos tus "te quiero" en mi corazón.</p>
+        </div>
+        
+        <div class="anniversary-card">
+            <h2>Fotitos UwU</h2>
+            <div class="photo-gallery">
+                <img src="IMG_20250223_204724[1].JPG" class="gallery-item" alt="">
+                <img src="gabi.jpg" class="gallery-item" alt="Canción compartida">
+                <img src="snopp.jpg" class="gallery-item" alt="Meme favorito">
+            </div>
+            <button class="elegant-btn" onclick="showRandomLoveMessage()">Dale click :3</button>
+        </div>
+    </div>
+    
+    <script>
+        // ====== MÚSICA ====== //
+        const audio = new Audio('./music.mp3'); // Cambia esta URL
+        audio.loop = true;
+        let isPlaying = false;
+        
+        document.getElementById('musicToggle').addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                this.textContent = '▶️';
+            } else {
+                audio.play().catch(e => alert("Haz clic en cualquier parte de la página para activar la música"));
+                this.textContent = '⏸';
+            }
+            isPlaying = !isPlaying;
+        });
+        
+        // Para móviles (requiere interacción del usuario)
+        document.body.addEventListener('click', function initMusic() {
+            if (!isPlaying) {
+                audio.play();
+                document.getElementById('musicToggle').textContent = '⏸';
+                isPlaying = true;
+            }
+            document.body.removeEventListener('click', initMusic);
+        });
+        
+        // ====== CORAZONES FLOTANTES ====== //
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartEmojis = ['❤️', '💖', '💕', '💗', '💓', '💘', '💝', '🌸'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = Math.random() * 100 + 'vh';
+                    heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                    heart.style.animationDuration = (Math.random() * 5 + 3) + 's';
+                    container.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 400);
+            }
+        }
+        
+        // ====== MENSAJES Y EFECTOS ====== //
+        const randomPlans = [
+            "cocinar tu comida favorita",
+            "mirar las estrellas juntos",
+            "hacer esa llamada que dura horas",
+            "recordar estos meses de paciencia",
+            "darte el abrazo más largo del mundo",
+            "besarte como si no hubiera un mañana"
+        ];
+        
+        const loveMessages = [
+            "Eres la única persona con la que quiero pasar el resto de mi vida.",
+            "A veces reviso nuestro chat solo para sonreír un rato.",
+            "¿Sabes qué es lo mejor de mi día? Tú.",
+            "Extraño hasta tus silencios incómodos.",
+            "No hay app que pueda medir lo que siento por ti.",
+            "Me gusta cómo me haces sentir incluso cuando no estás.",
+            "Eres mi lugar favorito en este mundo, aunque estés lejos.",
+            "Tus mensajes son mi dosis diaria de felicidad."
+        ];
+        
+        // Actualizar planes aleatorios
+        function updateRandomPlan() {
+            document.getElementById('randomPlan').textContent = 
+                randomPlans[Math.floor(Math.random() * randomPlans.length)];
+        }
+        
+        // Mostrar mensaje oculto
+        function showMessage() {
+            const message = document.getElementById('hiddenMessage');
+            message.style.display = 'block';
+            launchConfetti();
+            createHearts();
+        }
+        
+        // Mensaje especial de Snoopy
+        function showSnoopyMessage() {
+            const messages = [
+                "🐾 ¡Eres más dulce que las galletas de Snoopy! 🍪",
+                "🐶 Sabes que te amo más que Snoopy a su manta favorita 💕",
+                "💌 Eres mi Woodstock en esta aventura llamada vida 🐦",
+                "❤️ Cada día contigo es como un cómic de Snoopy: lleno de amor y aventuras 🎭"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showFloatingMessage(randomMessage);
+            launchConfetti();
+            createHearts();
+        }
+        
+        // Mostrar mensaje flotante
+        function showFloatingMessage(msg) {
+            document.getElementById('dynamicMessage').innerHTML = msg;
+            document.getElementById('floatingMessage').style.display = 'block';
+        }
+        
+        // Mensajes de amor aleatorios
+        function showRandomLoveMessage() {
+            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            showFloatingMessage(randomMessage);
+            launchConfetti();
+            createHearts();
+        }
+        
+        // Efecto de confeti mejorado
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.style.display = 'block';
+            
+            if (window.JSConfetti) {
+                new JSConfetti().addConfetti({
+                    confettiColors: ['#ff9a9e', '#fad0c4', '#a18cd1', '#fbc2eb', '#ffcdc2', '#d23669'],
+                    confettiNumber: 200,
+                    emojiSize: 30,
+                    emojis: ['❤️', '💖', '💕', '🌸', '🐾'],
+                    confettiRadius: 6
+                });
+            } else {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js';
+                script.onload = () => new JSConfetti().addConfetti();
+                document.head.appendChild(script);
+            }
+            
+            setTimeout(() => {
+                canvas.style.display = 'none';
+            }, 3000);
+        }
+        
+        // ====== INICIALIZACIÓN ====== //
+        window.onload = function() {
+            createHearts();
+            setInterval(createHearts, 8000);
+            setInterval(updateRandomPlan, 3000);
+            updateRandomPlan();
+        };
+    </script>
+</body>
+</html>
