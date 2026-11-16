@@ -78,6 +78,8 @@ textarea{min-height:92px;resize:vertical}
 .seg button+button{border-left:1px solid var(--line)}
 .seg button[aria-pressed="true"]{background:var(--pen);color:var(--pen-ink)}
 .prev{font-size:14.5px;margin-top:4px}
+.fixed{background:var(--soft);border:1px solid var(--line);border-radius:9px;padding:8px 10px;min-height:44px;font-weight:800}
+.fixed small{display:block;font-weight:600;font-size:12.5px;color:var(--muted)}
 .prev div{margin:2px 0}
 
 .tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;margin:0 0 10px}
@@ -205,8 +207,7 @@ table.cj td:nth-child(3){background:#E7EBFB}
     <div class="step-h"><span class="num">2</span><h2 id="h-2">Cuenta cómo es tu clase</h2></div>
     <p class="hint">Los documentos cambian solos con cada dato.</p>
     <div class="grid">
-      <div class="f"><span class="lab" id="l-niv">Nivel</span><div class="seg" id="niveau" role="group" aria-labelledby="l-niv"><button type="button" data-v="A1">A1</button><button type="button" data-v="A2">A2</button><button type="button" data-v="B1">B1</button></div></div>
-      <div class="f"><label for="duree">Duración</label><select id="duree"><option value="20">20 min</option><option value="30">30 min</option><option value="40">40 min</option><option value="45">45 min</option><option value="60">60 min</option><option value="90">90 min</option></select></div>
+      <div class="f"><span class="lab">Nivel y duración</span><div class="fixed">A1 · 30 min<small>Fijo, según el examen</small></div></div>
       <div class="f"><label for="eleves">Alumnos</label><input id="eleves" type="number" min="2" max="60" inputmode="numeric"></div>
       <div class="f"><label for="publico">Público</label><select id="publico"><option value="enfants">Niños</option><option value="adolescents">Adolescentes</option><option value="adultes">Adultos</option></select></div>
       <div class="f"><label for="facil">Facilitadores</label><select id="facil"><option>1</option><option>2</option><option>3</option></select></div>
@@ -607,16 +608,16 @@ if(typeof document!=="undefined"){
   const $=id=>document.getElementById(id);
   let s={mat:"chanson",niveau:"A1",duree:30,eleves:25,facil:3,publico:"adolescents",proj:1,curso:"",fecha:"",ecole:"",prof:"",lien:"",phrases:""};
   try{Object.assign(s,JSON.parse(localStorage.getItem("tfp4")||"{}"))}catch(e){}
+  s.niveau="A1";s.duree=30;
   let vue="plan";
   let dlP=null;try{if(window.claude&&window.claude.use)dlP=window.claude.use("downloads").catch(()=>null)}catch(e){}
   $("mats").innerHTML=MATS.map(m=>`<button type="button" class="mat" data-m="${m.id}"><b>${m.es}</b><span>${m.tipo}</span></button>`).join("");
   $("tabs").innerHTML=VUES.map(v=>`<button type="button" class="tab" role="tab" data-v="${v[0]}">${v[1]}</button>`).join("");
-  ["duree","eleves","facil","publico","curso","fecha","ecole","prof","lien","phrases"].forEach(id=>{$(id).value=s[id]==null?"":String(s[id])});
+  ["eleves","facil","publico","curso","fecha","ecole","prof","lien","phrases"].forEach(id=>{$(id).value=s[id]==null?"":String(s[id])});
   if(s.lien||s.phrases)$("propio").open=true;
   let tT;function toast(x){const t=$("toast");t.textContent=x;t.hidden=false;clearTimeout(tT);tT=setTimeout(()=>{t.hidden=true},3800)}
   function render(){
     document.querySelectorAll(".mat").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===s.mat));
-    document.querySelectorAll("#niveau button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===s.niveau));
     document.querySelectorAll("#proj button").forEach(b=>b.setAttribute("aria-pressed",(b.dataset.v==="1")===!!s.proj));
     document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===vue));
     const m=MATS.find(x=>x.id===s.mat)||MATS[0];
@@ -625,17 +626,16 @@ if(typeof document!=="undefined"){
     $("prev").innerHTML=ph.length?`<span class="lab">Así se marca el futur proche:</span>`+ph.map(x=>`<div>${hl(auto(x))}</div>`).join(""):"";
     const v=VUES.find(x=>x[0]===vue)||VUES[0],d=v[2](s);
     $("view").innerHTML=`<div class="bar"><h3>${esc(d.titre)}</h3><div class="btns"><button type="button" class="btn solid" data-a="pdf">Descargar PDF</button><button type="button" class="btn" data-a="copy">Copiar texto</button></div></div><div id="doc">${html(d)}</div>`;
-    $("sum").textContent=`${m.es} · ${s.niveau} · ${s.duree} min · ${s.eleves} alumnos`;
+    $("sum").textContent=`${m.es} · A1 · 30 min · ${s.eleves} alumnos`;
     try{localStorage.setItem("tfp4",JSON.stringify(s))}catch(e){}
   }
   function lire(){
-    s.duree=+$("duree").value;s.facil=+$("facil").value;s.publico=$("publico").value;
+    s.facil=+$("facil").value;s.publico=$("publico").value;
     s.eleves=Math.min(60,Math.max(2,parseInt($("eleves").value,10)||25));
     ["curso","fecha","ecole","prof","lien","phrases"].forEach(id=>{s[id]=$(id).value});render();
   }
-  ["duree","eleves","facil","publico","curso","fecha","ecole","prof","lien","phrases"].forEach(id=>$(id).addEventListener("input",lire));
+  ["eleves","facil","publico","curso","fecha","ecole","prof","lien","phrases"].forEach(id=>$(id).addEventListener("input",lire));
   $("mats").addEventListener("click",e=>{const b=e.target.closest(".mat");if(b){s.mat=b.dataset.m;render()}});
-  $("niveau").addEventListener("click",e=>{const b=e.target.closest("button");if(b){s.niveau=b.dataset.v;render()}});
   $("proj").addEventListener("click",e=>{const b=e.target.closest("button");if(b){s.proj=b.dataset.v==="1"?1:0;render()}});
   $("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(b){vue=b.dataset.v;try{location.hash=vue}catch(x){}render()}});
   async function guardar(blob,filename){
