@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller Futur Proche</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+FR+Moderne:wght@400&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a French school notebook (Seyès ruling, red margin, ballpoint blue, highlighter yellow); three numbered steps, then a sticky export bar. */
+:root{
+  --bg:#F3F5FA; --paper:#FFFFFF; --ink:#1B2A4E; --muted:#5C688A; --line:#D3D9E8;
+  --pen:#2845C7; --pen-ink:#FFFFFF; --soft:#E7EBFB; --margin:#E0566B;
+  --mark:#FFE566; --mark-ink:#1B2A4E; --rule:#DCE3F5; --rule2:#B9C6EC;
+  --hand:"Playwrite FR Moderne","Segoe Script","Bradley Hand",cursive;
+  --body:"Figtree","Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1322; --paper:#171E33; --ink:#E8ECF8; --muted:#A2ADCB; --line:#2D3756;
+    --pen:#8FA2FF; --pen-ink:#0E1322; --soft:#222B4A; --margin:#F07F90;
+    --mark:#F2D34B; --mark-ink:#0E1322; --rule:#202A47; --rule2:#2F3C66;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1322; --paper:#171E33; --ink:#E8ECF8; --muted:#A2ADCB; --line:#2D3756;
+  --pen:#8FA2FF; --pen-ink:#0E1322; --soft:#222B4A; --margin:#F07F90;
+  --mark:#F2D34B; --mark-ink:#0E1322; --rule:#202A47; --rule2:#2F3C66;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+.wrap{max-width:980px;margin:0 auto;padding:16px 16px 0;display:flex;flex-direction:column;gap:18px}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+
+.hero{background-color:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px 20px 26px 60px;
+  background-image:linear-gradient(90deg,transparent 43px,var(--margin) 43px,var(--margin) 44px,transparent 44px),
+    linear-gradient(var(--rule2) 1px,transparent 1px),linear-gradient(var(--rule) 1px,transparent 1px);
+  background-size:100% 100%,100% 32px,100% 8px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pen);margin:0 0 6px}
+.hero h1{font-family:var(--hand);font-weight:400;font-size:clamp(25px,6.6vw,48px);line-height:1.55;margin:0 0 10px;text-wrap:balance}
+.hero h1 mark{background:linear-gradient(var(--mark),var(--mark)) no-repeat 0 62%/100% 58%;color:inherit;padding:0 .12em;animation:sweep .9s .25s ease-out backwards}
+@keyframes sweep{from{background-size:0 58%}}
+@media (prefers-reduced-motion:reduce){.hero h1 mark{animation:none}}
+.hero p.lead{margin:0;max-width:60ch;color:var(--muted)}
+@media (max-width:520px){.hero{padding-left:34px;background-image:linear-gradient(90deg,transparent 19px,var(--margin) 19px,var(--margin) 20px,transparent 20px),linear-gradient(var(--rule2) 1px,transparent 1px),linear-gradient(var(--rule) 1px,transparent 1px)}}
+
+.step{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
+.step-h{display:flex;align-items:center;gap:10px;margin:0 0 4px}
+.num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--pen);color:var(--pen-ink);font-weight:800;display:grid;place-items:center}
+h2{font-size:20px;font-weight:800;margin:0;text-wrap:balance}
+.hint{color:var(--muted);margin:0 0 14px;font-size:15px}
+
+.mats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.mat{text-align:left;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-height:64px}
+.mat b{font-size:15.5px}
+.mat span{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+.mat[aria-pressed="true"]{border-color:var(--pen);background:var(--soft);box-shadow:inset 0 -4px 0 var(--mark)}
+.info{margin-top:12px;border-left:3px solid var(--margin);padding:4px 0 4px 12px;font-size:15px}
+.info p{margin:0 0 3px}
+details{margin-top:12px;border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+summary{font-weight:700;color:var(--pen);cursor:pointer}
+details .grid{margin-top:10px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.f{display:flex;flex-direction:column;gap:4px;min-width:0}
+.f.wide{grid-column:1/-1}
+label,.lab{font-size:13px;font-weight:700;color:var(--muted)}
+select,input,textarea{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px;width:100%;min-height:44px}
+textarea{min-height:92px;resize:vertical}
+.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--bg)}
+.seg button{flex:1;border:0;background:transparent;padding:10px 6px;min-height:42px;font-weight:700;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--pen);color:var(--pen-ink)}
+.prev{font-size:14.5px;margin-top:4px}
+.prev div{margin:2px 0}
+
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;margin:0 0 10px}
+.tab{white-space:nowrap;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:9px 14px;font-weight:700}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.bar h3{font-family:var(--hand);font-weight:400;font-size:21px;margin:0;line-height:1.5}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--pen);color:var(--pen);background:transparent;border-radius:9px;padding:8px 12px;font-weight:700;font-size:14.5px;min-height:40px}
+.btn.solid{background:var(--pen);color:var(--pen-ink)}
+.btn[disabled]{opacity:.6;cursor:wait}
+
+mark{background:var(--mark);color:var(--mark-ink);padding:0 3px;border-radius:3px}
+.ln{margin:0 0 3px}.ln.b{font-weight:700}.ln.bl{padding-left:14px;position:relative}.ln.bl::before{content:"•";position:absolute;left:2px}
+.sheet{border:1px solid var(--line);border-radius:8px;padding:16px 14px 14px 46px;background-color:var(--paper);
+  background-image:linear-gradient(90deg,transparent 31px,var(--margin) 31px,var(--margin) 32px,transparent 32px),linear-gradient(var(--rule) 1px,transparent 1px);background-size:100% 100%,100% 8px}
+.sheet .hd{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:8px}
+.sheet .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;white-space:pre-wrap;padding-left:14px}
+.sheet .ln{margin-bottom:8px}
+.note{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:14.5px;margin-top:12px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border:1px solid var(--line);padding:7px 8px;vertical-align:top;text-align:left}
+thead th{background:var(--soft);font-size:12px;letter-spacing:.03em}
+table.wide{min-width:940px}
+table.kv td:first-child{width:32%;background:var(--soft);font-weight:700}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px 16px;font-size:14.5px;margin-bottom:10px}
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.act{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg);border-top:4px solid var(--mark)}
+.act h4{margin:0 0 6px;font-size:16.5px}
+.act .ln{font-size:14.5px}
+.slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.slide{container-type:inline-size;aspect-ratio:16/9;border:1px solid var(--line);border-radius:8px;background:var(--paper);overflow:hidden;position:relative;border-top:6px solid var(--pen)}
+.slide .in{padding:4.2cqw 5cqw;font-size:3.5cqw;line-height:1.3;height:100%;display:flex;flex-direction:column;gap:1.2cqw}
+.slide h4{font-size:5.8cqw;line-height:1.1;margin:0 0 1cqw;font-weight:800}
+.slide.cover{background:var(--pen);color:var(--pen-ink)}
+.slide.cover .in{justify-content:flex-end}
+.slide.cover h4{font-family:var(--hand);font-weight:400;font-size:9cqw;line-height:1.4}
+.slide .ln{margin:0}.slide .ln.bl{padding-left:4cqw}
+.slide .ph{border:1px dashed var(--muted);border-radius:1.5cqw;padding:2cqw;color:var(--muted);text-align:center;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.slide .n{position:absolute;right:2.5cqw;bottom:1.5cqw;font-size:2.8cqw;color:var(--muted)}
+.slide.cover .n{color:inherit;opacity:.7}
+.small{font-size:14px;color:var(--muted);margin:10px 0 0}
+
+.dock{position:sticky;bottom:0;z-index:5;background:var(--ink);color:var(--paper);border-radius:14px 14px 0 0;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.dock .sum{font-size:14px;font-weight:600;min-width:0}
+.dock .go{border:0;background:var(--mark);color:var(--mark-ink);font-weight:800;border-radius:10px;padding:11px 16px;min-height:44px}
+.dock .go[disabled]{opacity:.6;cursor:wait}
+.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--ink);color:var(--paper);border:1px solid var(--line);padding:10px 14px;border-radius:10px;font-weight:600;font-size:14.5px;max-width:calc(100% - 32px);z-index:9}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Clase de francés · Le futur proche</p>
+    <h1>Je <mark>vais préparer</mark> ma classe.</h1>
+    <p class="lead">Elige un material auténtico, cuenta cómo es tu clase y descarga en PDF la hoja de sensibilización, el plan de aula, la ficha pedagógica, las actividades y las diapositivas.</p>
+  </header>
+
+  <section class="step" aria-labelledby="h-1">
+    <div class="step-h"><span class="num">1</span><h2 id="h-1">Elige el material auténtico</h2></div>
+    <p class="hint">Es el documento real con el que tus alumnos descubren el futur proche antes de ver la regla.</p>
+    <div class="mats" id="mats" role="group" aria-labelledby="h-1"></div>
+    <div class="info" id="info"></div>
+    <details id="propio">
+      <summary>Ya encontré mi material: pegar enlace y frases</summary>
+      <div class="grid">
+        <div class="f wide"><label for="lien">Enlace del video, canción o página</label><input id="lien" type="url" placeholder="https://…"></div>
+        <div class="f wide"><label for="phrases">Frases reales del material, una por línea</label><textarea id="phrases" placeholder="Demain, il va pleuvoir à Paris."></textarea>
+          <div class="prev" id="prev"></div></div>
+      </div>
+    </details>
+  </section>
+
+  <section class="step" aria-labelledby="h-2">
+    <div class="step-h"><span class="num">2</span><h2 id="h-2">Cuenta cómo es tu clase</h2></div>
+    <p class="hint">Los documentos cambian solos con cada dato.</p>
+    <div class="grid">
+      <div class="f"><span class="lab" id="l-niv">Nivel</span><div class="seg" id="niveau" role="group" aria-labelledby="l-niv"><button type="button" data-v="A1">A1</button><button type="button" data-v="A2">A2</button><button type="button" data-v="B1">B1</button></div></div>
+      <div class="f"><label for="duree">Duración</label><select id="duree"><option value="20">20 min</option><option value="30">30 min</option><option value="40">40 min</option><option value="45">45 min</option><option value="60">60 min</option><option value="90">90 min</option></select></div>
+      <div class="f"><label for="eleves">Alumnos</label><input id="eleves" type="number" min="2" max="60" inputmode="numeric"></div>
+      <div class="f"><label for="publico">Público</label><select id="publico"><option value="enfants">Niños</option><option value="adolescents">Adolescentes</option><option value="adultes">Adultos</option></select></div>
+      <div class="f"><label for="facil">Facilitadores</label><select id="facil"><option>1</option><option>2</option><option>3</option></select></div>
+      <div class="f"><span class="lab" id="l-proj">¿Hay proyector?</span><div class="seg" id="proj" role="group" aria-labelledby="l-proj"><button type="button" data-v="1">Sí</button><button type="button" data-v="0">No</button></div></div>
+      <div class="f"><label for="curso">Curso</label><input id="curso" type="text" placeholder="3° de Secundaria B"></div>
+      <div class="f"><label for="fecha">Fecha de la clase</label><input id="fecha" type="date"></div>
+      <div class="f"><label for="ecole">Unidad educativa</label><input id="ecole" type="text" placeholder="Nombre del colegio"></div>
+      <div class="f"><label for="prof">Docente(s)</label><input id="prof" type="text" placeholder="Tu nombre"></div>
+    </div>
+  </section>
+
+  <section class="step" aria-labelledby="h-3">
+    <div class="step-h"><span class="num">3</span><h2 id="h-3">Revisa y descarga tus documentos</h2></div>
+    <p class="hint">Salen en francés, listos para entregar.</p>
+    <nav class="tabs" role="tablist" aria-label="Documentos" id="tabs"></nav>
+    <div id="view"></div>
+    <p class="small">Si no pegaste frases reales, las de la hoja y las diapositivas son ejemplos de formato: cámbialas por las de tu material.</p>
+  </section>
+
+  <div class="dock">
+    <span class="sum" id="sum"></span>
+    <button type="button" class="go" id="todo">Descargar todo en PDF</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const MATS=[
+ {id:"chanson",es:"Canción",tipo:"Audio",oral:1,presente:"fait écouter le refrain de la chanson « On va s'aimer » (Gilbert Montagné)",doc:"le refrain de la chanson",support:"Enceinte ou téléphone, refrain de la chanson",q:"De quoi parle la chanson ?",consigne:"Écoute encore et complète avec le verbe que tu entends.",lignes:["On va ________      On va ________","On va ________      On va ________"],donde:"YouTube o Spotify. Solo el estribillo, 1 minuto.",ojo:"Copia tú la letra del estribillo en la hoja. El resto de la canción usa otros tiempos."},
+ {id:"meteo",es:"Clima",tipo:"Video",oral:1,presente:"montre un bulletin météo de la télévision française (30 à 60 secondes)",doc:"le bulletin météo",support:"Vidéo du bulletin météo, projecteur",q:"Quel temps va-t-il faire demain ?",consigne:"Regarde encore et coche ce que tu entends.",lignes:["☐ il [[va pleuvoir]]     ☐ il [[va faire]] beau","☐ il [[va neiger]]       ☐ il [[va faire]] froid","Demain, à Paris, il va ________"],donde:"francetvinfo.fr/meteo o el sitio de Météo-France.",ojo:"Cambia cada día y mezcla futur proche con futur simple. Elige antes el fragmento."},
+ {id:"horoscope",es:"Horóscopo",tipo:"Texto",presente:"distribue l'horoscope du jour d'un site français",doc:"l'horoscope",support:"Horoscope imprimé (une copie par binôme)",q:"C'est quel type de texte ? Quel est ton signe ?",consigne:"Trouve ton signe et souligne les verbes.",lignes:["LION : Cette semaine, vous [[allez rencontrer]] une personne spéciale.","Vous [[allez recevoir]] un message important.","Vrai ou faux pour toi ?   ☐ Vrai   ☐ Faux"],donde:"Busca «horoscope du jour» en sitios franceses.",ojo:"Muchos están en futur simple. Elige uno escrito con «vous allez…»."},
+ {id:"vlog",es:"Vlog",tipo:"Video",oral:1,presente:"montre un extrait de vlog d'une youtubeuse française (20 à 30 secondes)",doc:"l'extrait de vlog",support:"Extrait vidéo avec sous-titres, projecteur",q:"Qui parle ? De quoi parle-t-elle ?",consigne:"Regarde encore. Qu'est-ce qu'elle va faire ?",lignes:["1. Elle va ________ avec ses amis.","2. Elle va ________ au cinéma.","Et toi ? Ce week-end, je vais ________"],donde:"YouTube, TikTok o Instagram: «ce week-end je vais», «vlog ma journée».",ojo:"Hablan rápido. Usa 20 a 30 segundos con subtítulos en francés."},
+ {id:"pub",es:"Publicidad",tipo:"Imagen",presente:"projette trois affiches publicitaires françaises",doc:"les affiches",support:"Trois affiches publicitaires, projecteur",q:"Qu'est-ce qu'on vend ?",consigne:"Observe les affiches et entoure le futur proche.",lignes:["« Vous [[allez adorer]] ! »","« Ça [[va changer]] votre vie. »","Invente un slogan : Vous allez ________"],donde:"Busca imágenes: «affiche publicitaire vous allez adorer».",ojo:"Da pocas frases. Muestra 3 o 4 afiches."},
+ {id:"stars",es:"Famosos",tipo:"Texto",presente:"projette des messages publiés par des sportifs ou des chanteurs français",doc:"les messages",support:"Captures des messages, projecteur",q:"Qui écrit ? À quel moment ?",consigne:"Lis les messages. Qui va faire quoi ?",lignes:["« Demain, on [[va gagner]] ! »","« Ce soir, je [[vais chanter]] à Paris. »","Le footballeur va ________      La chanteuse va ________"],donde:"X, Instagram o titulares de prensa deportiva francesa.",ojo:"Verifica que la publicación sea real y adecuada para la edad."},
+ {id:"gare",es:"Estación de tren",tipo:"Audio",oral:1,presente:"fait écouter une annonce de gare (SNCF)",doc:"l'annonce de gare",support:"Enregistrement de l'annonce, enceinte",q:"Où sommes-nous ?",consigne:"Écoute encore et complète.",lignes:["Le train n° 6607 va ________ voie 3.","Le train [[va partir]]. Attention à la fermeture des portes."],donde:"YouTube: «annonce SNCF gare».",ojo:"El audio tiene eco. Funciona mejor con el texto a la vista."},
+ {id:"micro",es:"Entrevistas en la calle",tipo:"Video",oral:1,presente:"montre un micro-trottoir : « Qu'est-ce que vous allez faire ce week-end ? »",doc:"le micro-trottoir",support:"Vidéo du micro-trottoir, projecteur",q:"Quelle est la question du journaliste ?",consigne:"Écoute trois personnes. Qu'est-ce qu'elles vont faire ?",lignes:["Personne 1 : Je vais ________","Personne 2 : On va ________","Personne 3 : Nous allons ________"],donde:"YouTube: «micro-trottoir vacances», «qu'est-ce que vous allez faire ce week-end».",ojo:"Es el que tiene más futur proche, pero con acentos y velocidades distintas."},
+ {id:"resolutions",es:"Resoluciones",tipo:"Texto",presente:"distribue une liste de bonnes résolutions publiée sur un site français",doc:"la liste de résolutions",support:"Liste imprimée (une copie par binôme)",q:"À quel moment de l'année écrit-on ce texte ?",consigne:"Lis la liste et souligne « aller + infinitif ».",lignes:["Cette année, je [[vais faire]] du sport.","Je [[vais lire]] un livre par mois.","Ta résolution : Cette année, je vais ________"],donde:"Busca «mes bonnes résolutions cette année je vais».",ojo:"Encaja mejor cerca de fin de año."},
+ {id:"bd",es:"Cómic",tipo:"Imagen",presente:"projette une planche courte de bande dessinée française",doc:"la bande dessinée",support:"Planche de BD (3 ou 4 cases), projecteur",q:"Qui sont les personnages ? Où sont-ils ?",consigne:"Lis la BD. Qu'est-ce que le personnage va faire ?",lignes:["Case 1 : « Je vais ________ ! »","Case 3 : « Attention, tu vas ________ ! »","Dessine la case suivante : Il va ________"],donde:"Tiras cómicas de periódicos o webs francesas, de 3 o 4 cuadros.",ojo:"No todas usan futur proche. Revísala antes."}
+];
+
+const NIV={
+ A1:{
+  objGen:"À la fin du cours, les apprenants seront capables de parler de leurs projets proches avec le futur proche à la forme affirmative (je, tu, il / elle / on).",
+  objSpec:["Reconnaître le futur proche dans un document authentique.","Conjuguer « aller » au présent avec je, tu, il / elle / on.","Dire ou écrire au moins 3 phrases sur ses projets."],
+  gram:["Aller au présent : je vais, tu vas, il / elle / on va","Aller + infinitif (forme affirmative)"],
+  lex:["Loisirs : regarder un film, jouer au foot, écouter de la musique, manger au restaurant","Indicateurs de temps : demain, ce soir, ce week-end"],
+  phon:"Prononciation de « je vais » et « on va »",
+  conj:["je vais","tu vas","il / elle / on va"],
+  ex:["Je [[vais regarder]] un film.","Tu [[vas jouer]] au foot.","On [[va manger]] au restaurant."],
+  extra:{t:"Quand ?",l:["- demain","- ce soir","- ce week-end","Demain, je [[vais jouer]] au foot."]},
+  exo:{t:"Complète avec « aller »",i:["Je ____ regarder un film ce soir.","Tu ____ jouer au foot demain ?","Elle ____ visiter Paris ce week-end.","On ____ écouter de la musique."],c:"vais, vas, va, va"},
+  prod:{t:"Mon week-end",c:"Écris 3 phrases sur ton week-end, puis lis-les à ton camarade.",m:"Ce week-end, je vais…"},
+  eval:"Évaluation formative : participation, emploi correct de « aller + infinitif » dans 3 phrases, prononciation.",
+  acts:[
+   {t:"Le dé des projets",o:"Former des phrases au futur proche.",m:"Un dé et 6 cartes d'activités par groupe",bin:0,d:["Le dé donne le sujet : 1-2 je, 3-4 tu, 5-6 il / elle / on.","L'apprenant tire une carte (jouer au foot, regarder un film…) et dit la phrase.","Le groupe valide ; une phrase correcte vaut 1 point."]},
+   {t:"Trouve quelqu'un qui va…",o:"Poser une question simple et y répondre.",m:"Une grille par apprenant",bin:0,d:["Chaque apprenant reçoit une grille : « … va regarder un film ce soir ».","Il circule et demande : « Tu vas regarder un film ce soir ? »","Il note le prénom de celui qui répond oui."]},
+   {t:"La boule de cristal",o:"Faire des prédictions avec « tu vas ».",m:"Cartes d'images (voyage, argent, amour, sport)",bin:1,d:["En binômes, un apprenant joue le voyant.","Il tire 3 cartes et prédit : « Tu vas voyager. »","Ils échangent les rôles."]}
+  ]},
+ A2:{
+  objGen:"À la fin du cours, les apprenants seront capables de parler de leurs projets, de poser des questions et de répondre à la forme négative avec le futur proche (toutes les personnes).",
+  objSpec:["Reconnaître le futur proche dans un document authentique.","Conjuguer « aller » à toutes les personnes, à la forme affirmative et négative.","Poser au moins 2 questions sur les projets d'un camarade et y répondre."],
+  gram:["Aller au présent (toutes les personnes) + infinitif","Négation : je ne vais pas sortir","Questions : Est-ce que tu vas… ? / Qu'est-ce que tu vas faire ?"],
+  lex:["Loisirs et vacances : partir en voyage, faire du sport, rendre visite à, rester à la maison","Indicateurs de temps : la semaine prochaine, dans deux jours, bientôt"],
+  phon:"L'intonation montante de la question : Tu vas sortir ?",
+  conj:["je vais","tu vas","il / elle / on va","nous allons","vous allez","ils / elles vont"],
+  ex:["Nous [[allons partir]] en voyage.","Je [[ne vais pas sortir]] ce soir.","Qu'est-ce que vous [[allez faire]] demain ?"],
+  extra:{t:"Négation et question",l:["Je [[ne vais pas]] sortir.","Est-ce que tu [[vas venir]] ?","Qu'est-ce que tu [[vas faire]] ?"]},
+  exo:{t:"Mets à la forme négative",i:["Je vais sortir ce soir.","Nous allons partir demain.","Ils vont faire du sport.","Vous allez rester à la maison."],c:"Je ne vais pas sortir… / Nous n'allons pas partir… / Ils ne vont pas faire… / Vous n'allez pas rester…"},
+  prod:{t:"Le sondage",c:"En binômes, pose 3 questions à ton camarade sur ses vacances. Note ses réponses et présente-les à la classe.",m:"Qu'est-ce que tu vas faire pendant les vacances ?"},
+  eval:"Évaluation formative : participation, emploi correct des formes affirmative et négative, questions bien formées, intonation.",
+  acts:[
+   {t:"Le dé des projets",o:"Former des phrases affirmatives et négatives.",m:"Deux dés et 6 cartes d'activités par groupe",bin:0,d:["Le premier dé donne le sujet (je, tu, il, nous, vous, ils).","Le second dé donne la forme : pair = affirmative, impair = négative.","L'apprenant tire une carte et dit la phrase ; le groupe valide."]},
+   {t:"Trouve quelqu'un qui va…",o:"Poser des questions et répondre par oui ou non.",m:"Une grille par apprenant",bin:0,d:["Grille : « … va partir en voyage », « … ne va pas sortir ce week-end ».","L'apprenant circule : « Est-ce que tu vas partir en voyage ? »","Il note le prénom et rapporte : « Ana va partir en voyage. »"]},
+   {t:"Qu'est-ce qu'il va faire ?",o:"Deviner une action proche à partir d'un mime.",m:"Cartes d'actions",bin:0,d:["Un apprenant mime le début d'une action (il prend un ballon).","La classe devine : « Tu vas jouer au foot ? »","Il répond : « Oui, je vais… » ou « Non, je ne vais pas… »"]}
+  ]},
+ B1:{
+  objGen:"À la fin du cours, les apprenants seront capables de présenter un projet à l'oral en employant le futur proche (verbes pronominaux et pronoms compris) et de le distinguer du futur simple.",
+  objSpec:["Repérer le futur proche et le futur simple dans un document authentique.","Employer le futur proche avec les verbes pronominaux et les pronoms compléments.","Présenter un projet de groupe à l'oral en 1 minute."],
+  gram:["Futur proche des verbes pronominaux : je vais me lever tôt","Place du pronom : je vais le faire, on va leur écrire","Futur proche (projet décidé, proche) / futur simple (projet lointain, prévision)"],
+  lex:["Organiser un projet : réserver, s'inscrire, se retrouver, se préparer, prévenir","Indicateurs : dans un instant, tout à l'heure, d'ici la fin du mois"],
+  phon:"Le rythme du groupe « aller + pronom + infinitif », sans pause",
+  conj:["je vais me lever","tu vas te lever","il / elle / on va se lever","nous allons nous lever","vous allez vous lever","ils / elles vont se lever"],
+  ex:["Je [[vais me lever]] tôt demain.","Ce dossier ? Je [[vais le finir]] ce soir.","On [[va partir]] samedi ; un jour, on visitera le Québec."],
+  extra:{t:"Futur proche ou futur simple ?",l:["Projet décidé, proche :","On [[va partir]] samedi.","Projet lointain, prévision :","Un jour, on visitera le Québec."]},
+  exo:{t:"Futur proche ou futur simple ?",i:["Regarde ces nuages : il ____ (pleuvoir).","Dans dix ans, je ____ (habiter) à Paris.","Attends, je ____ (t'aider) tout de suite.","Un jour, nous ____ (faire) le tour du monde."],c:"va pleuvoir, habiterai, vais t'aider, ferons"},
+  prod:{t:"Notre projet",c:"En groupes, organisez une sortie de classe : où, quand, qui va faire quoi. Présentez votre projet en 1 minute.",m:"Samedi, on va se retrouver à… Ana va réserver…"},
+  eval:"Évaluation formative : participation, emploi correct des pronoms et des verbes pronominaux, choix justifié entre futur proche et futur simple, fluidité de la présentation.",
+  acts:[
+   {t:"Organisons une sortie",o:"Répartir des tâches au futur proche.",m:"Une fiche projet par groupe",bin:0,d:["Chaque groupe choisit une sortie (musée, pique-nique, match).","Il répartit les tâches : « Luis va réserver, je vais prévenir le professeur. »","Il présente le plan à la classe."]},
+   {t:"Proche ou lointain ?",o:"Choisir entre futur proche et futur simple.",m:"Douze cartes de situations",bin:0,d:["Chaque carte décrit une situation (ce soir, dans vingt ans, regarde !).","Le groupe forme la phrase et justifie son choix.","Mise en commun des cas discutés."]},
+   {t:"La boule de cristal",o:"Faire des prédictions avec des pronoms.",m:"Cartes d'images",bin:1,d:["En binômes, un apprenant joue le voyant.","Il prédit : « Tu vas te marier », « On va t'offrir un voyage ».","L'autre réagit : « Non, je ne vais pas… »"]}
+  ]}
+};
+
+const ETAPES=[["Sensibilisation",.2],["Conceptualisation",.2],["Systématisation",.25],["Production",.25],["Clôture",.1]];
+function temps(total){
+  const raw=ETAPES.map(e=>e[1]*total), t=raw.map(Math.floor); let r=total-t.reduce((a,b)=>a+b,0);
+  raw.map((v,i)=>[v-t[i],i]).sort((a,b)=>b[0]-a[0]).forEach(([,i])=>{if(r>0){t[i]++;r--}});
+  return t;
+}
+function groupes(n){
+  const b=Math.floor(n/2), pl=k=>`${k} binôme${k>1?"s":""}`;
+  const binomes=n%2?(b>1?`${pl(b-1)} + 1 groupe de trois`:"1 groupe de trois"):pl(b);
+  const g=Math.max(1,Math.round(n/5));
+  return {binomes,equipes:n<6?"1 groupe":`${g} groupes de 4 ou 5`};
+}
+const FP=/(?:\b(?:ne\s+|n['’]))?\b(?:vais|vas|va|allons|allez|vont)\b(?:\s+pas)?(?:\s+(?:me|te|se|nous|vous|le|la|les|lui|leur|y|en)\b|\s+[mtsl]['’])?\s*[A-Za-zÀ-ÿœ]+(?:er|ir|re)(?![A-Za-zÀ-ÿœ])/gi;
+const auto=x=>x.includes("[[")?x:x.replace(FP,"[[$&]]");
+const plain=x=>x.replace(/\[\[|\]\]/g,"");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hl=s=>esc(s).replace(/\[\[(.+?)\]\]/g,"<mark>$1</mark>");
+const PUB={enfants:"enfants",adolescents:"adolescents",adultes:"adultes"};
+function dateFr(d){const m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(d||"");return m?`${m[3]}/${m[2]}/${m[1]}`:""}
+
+function ctx(s){
+  const m0=MATS.find(x=>x.id===s.mat)||MATS[0], n=NIV[s.niveau]||NIV.A1;
+  const m=Object.assign({},m0);
+  if(!s.proj){m.support=m.support.replace(", projecteur",", copies imprimées ou écran d'un ordinateur");m.presente=m.presente.replace(/^projette/,"distribue en copies")}
+  const perso=(s.phrases||"").split(/\n/).map(x=>x.trim()).filter(Boolean).slice(0,6);
+  const custom=perso.length>0;
+  return {m,n,t:temps(s.duree),g:groupes(s.eleves),custom,
+    lignes:custom?perso:m.lignes, marquees:custom?perso.map(auto):n.ex,
+    consigne:custom?"Lis (ou écoute) ces phrases et souligne « aller + infinitif ».":m.consigne,
+    ecole:(s.ecole||"").trim()||"[Nom de l'établissement]",prof:(s.prof||"").trim()||"[Nom de l'enseignant(e)]",
+    classe:(s.curso||"").trim(),date:dateFr(s.fecha),pub:PUB[s.publico]||"adolescents"};
+}
+const qui=(s,i)=>s.facil>1?` (Facilitateur ${i%s.facil+1})`:"";
+function etapes(s){
+  const c=ctx(s),{m,n,t,g}=c;
+  return [
+   {nom:"Sensibilisation",d:t[0],org:"Grand groupe",txt:[`L'enseignant ${m.presente}, sans explication. Question : « ${m.q} »`,`Deuxième passage avec la fiche de repérage : « ${c.consigne} »`]},
+   {nom:"Conceptualisation",d:t[1],org:"Grand groupe",txt:["Les apprenants observent les phrases relevées et disent si elles parlent du passé, du présent ou du futur.","Ils déduisent la règle (aller au présent + infinitif) ; l'enseignant l'écrit au tableau."]},
+   {nom:"Systématisation",d:t[2],org:`Binômes (${g.binomes})`,txt:[`Exercice « ${n.exo.t} » en binômes.`,"Correction collective au tableau."]},
+   {nom:"Production",d:t[3],org:s.niveau==="B1"?`Groupes (${g.equipes})`:`Binômes (${g.binomes})`,txt:[`« ${n.prod.t} » : ${n.prod.c}`]},
+   {nom:"Clôture",d:t[4],org:"Individuel",txt:["Chaque apprenant dit une phrase au futur proche avant de sortir.","Rappel de la règle et de l'erreur la plus fréquente."]}
+  ];
+}
+
+/* Each builder returns a document model; one renderer draws it as HTML, another as PDF. */
+function dHoja(s){
+  const c=ctx(s),{m}=c;
+  const rows=[{x:`1. ${m.q}`},{x:`2. ${c.consigne}`}].concat(c.lignes.map(l=>({x:c.custom?l:plain(l),h:c.custom?l:l,mono:1})),
+    [{x:"3. Ces phrases parlent du passé, du présent ou du futur ?   ☐ passé   ☐ présent   ☐ futur"},{x:"4. Complète la règle : le futur proche = ________ au présent + ________"}]);
+  const note=[`#Dónde conseguirlo: ${m.donde}`,`#Ojo: ${m.ojo}`];
+  if(s.lien&&s.lien.trim())note.push(`Tu enlace: ${s.lien.trim()}`);
+  if(c.custom)note.push("#Corrigé (solo para ti):",...c.marquees.map(x=>"- "+x));
+  return {titre:"Fiche de repérage",nom:"fiche_reperage",orient:"portrait",blocks:[{t:"sheet",head:["Nom : ____________________","Date : ____________"],sub:`Le futur proche · ${s.niveau}`,rows},{t:"note",lines:note}]};
+}
+function dPlan(s){
+  const c=ctx(s),{m,n}=c,E=etapes(s);
+  const acts=[];E.forEach((e,i)=>{acts.push(`#${i+1}. ${e.nom} (${e.d} min)${i<4?qui(s,i):(s.facil>1?" (tous)":"")}`);e.txt.forEach(x=>acts.push("- "+x))});
+  const org=[...new Set(E.map(e=>e.org))];
+  const meta=[["ÉTABLISSEMENT",c.ecole],["NIVEAU",s.niveau+(c.classe?` · ${c.classe}`:"")],["UNITÉ","Le futur proche"],["NOMBRE D'APPRENANTS",`${s.eleves} (${c.pub})`],[s.facil>1?"FACILITATEURS":"ENSEIGNANT(E)",c.prof],["DURÉE",`${s.duree} minutes`]];
+  if(c.date)meta.push(["DATE",c.date]);
+  const mat=[m.support,"Fiches de repérage",s.proj?"Diapositives et projecteur":"Affiches avec la règle (sans projecteur)","Tableau et marqueurs"];
+  return {titre:"Plan de classe",nom:"plan_de_classe",orient:"landscape",blocks:[
+    {t:"meta",rows:meta},{t:"p",b:"OBJECTIF GÉNÉRAL :",x:n.objGen},
+    {t:"table",wide:1,size:8,w:[.13,.15,.26,.06,.1,.1,.11,.09],head:["OBJECTIFS SPÉCIFIQUES","CONTENUS","ACTIVITÉS","DURÉE","MATÉRIEL","ORGANISATION","COMPÉTENCES","ÉVALUATION"],
+     rows:[[n.objSpec.map((x,i)=>`${i+1}. ${x}`),["#Grammaire :",...n.gram.map(x=>"- "+x),"#Lexique :",...n.lex.map(x=>"- "+x),"#Phonétique :","- "+n.phon],acts,[`${s.duree} min`],mat.map(x=>"- "+x),org.map(x=>"- "+x),["- Compréhension "+(m.oral?"orale":"écrite"),"- Production orale","- Production écrite","- Grammaire"],[n.eval]]]}]};
+}
+function dFicha(s){
+  const c=ctx(s),{m,n}=c,E=etapes(s);
+  const docA=m.presente.replace(/^(fait écouter|montre|distribue en copies|distribue|projette) /,"");
+  const R=[["Établissement",[c.ecole]],[s.facil>1?"Facilitateurs":"Enseignant(e)",[c.prof]]];
+  if(c.classe)R.push(["Classe",[c.classe]]);
+  if(c.date)R.push(["Date",[c.date]]);
+  R.push(["Niveau (CECR)",[s.niveau]],["Public",[`${s.eleves} apprenants (${c.pub})`]],["Durée",[`${s.duree} minutes`]],["Thème",["Les projets proches : le futur proche"]],["Objectif communicatif",[n.objGen]],
+   ["Objectifs linguistiques",["#Grammaire :",...n.gram.map(x=>"- "+x),"#Lexique :",...n.lex.map(x=>"- "+x),"#Phonétique :","- "+n.phon]],
+   ["Objectif socioculturel",[`Découvrir un document du quotidien francophone : ${m.doc}.`]],
+   ["Document authentique",[docA.charAt(0).toUpperCase()+docA.slice(1)].concat(s.lien&&s.lien.trim()?["Lien : "+s.lien.trim()]:[])],
+   ["Matériel",[[m.support,"fiches de repérage",s.proj?"diapositives et projecteur":"affiches avec la règle","tableau et marqueurs"].join(", ")]],
+   ["Déroulement",E.map((e,i)=>`${i+1}. ${e.nom} : ${e.d} min, ${e.org.toLowerCase()}`)],["Évaluation",[n.eval]]);
+  return {titre:"Fiche pédagogique",nom:"fiche_pedagogique",orient:"portrait",blocks:[{t:"table",kv:1,size:10,w:[.3,.7],rows:R.map(r=>[["#"+r[0]],r[1]])}]};
+}
+function dActs(s){
+  const {n,t,g}=ctx(s),d=Math.max(5,Math.round(t[3]*0.8));
+  return {titre:"Activités didactiques",nom:"activites",orient:"portrait",blocks:[{t:"cards",cards:n.acts.map(a=>({h:a.t,lines:[`Objectif : ${a.o}`,`Durée : ${d} min · Organisation : ${a.bin?g.binomes:g.equipes}`,`Matériel : ${a.m}`],steps:a.d}))},
+    {t:"note",lines:["Son actividades de práctica para la etapa de Production o para una clase siguiente."]}]};
+}
+function dDiapos(s){
+  const c=ctx(s),{m,n}=c;
+  const S=[
+   {cover:1,h:"Le futur proche",lines:[`Niveau ${s.niveau} · ${s.duree} min`+(c.date?` · ${c.date}`:""),c.ecole+(c.classe?` · ${c.classe}`:""),c.prof]},
+   {h:"Découvrons",ph:`Insérer ici : ${m.doc}`,lines:["#"+m.q]},
+   {h:"Repérage",lines:[c.consigne,...c.lignes.map(x=>"- "+(c.custom?x:x))]},
+   {h:"Observons",lines:[...c.marquees.slice(0,4).map(x=>"- "+x),"#Passé, présent ou futur ?"]},
+   {h:"La règle",lines:["[[aller au présent]] + [[infinitif]]",...n.conj.map(x=>"- "+x+(s.niveau==="B1"?"":" + manger"))]},
+   {h:n.extra.t,lines:n.extra.l},
+   {h:"Entraînement",lines:["#"+n.exo.t,...n.exo.i.map(x=>"- "+x)]},
+   {h:"À vous !",lines:["#"+n.prod.t,n.prod.c,n.prod.m]},
+   {h:"Pour finir",lines:["Dis une phrase au futur proche avant de sortir.","Demain, je vais…"]}
+  ];
+  const note=[`Corrigé de l'exercice : ${n.exo.c}`];
+  if(!s.proj)note.push("Sin proyector: imprime las láminas 2 a 5 o cópialas en la pizarra.");
+  return {titre:"Diapositives",nom:"diapositives",orient:"landscape",slides:1,blocks:[{t:"slides",slides:S},{t:"note",lines:note}]};
+}
+const VUES=[["hoja","Hoja de sensibilización",dHoja],["plan","Plan de aula",dPlan],["ficha","Ficha pedagógica",dFicha],["actividades","Actividades",dActs],["diapositivas","Diapositivas",dDiapos]];
+
+/* ---------- HTML renderer ---------- */
+const ln=x=>x.startsWith("#")?`<div class="ln b">${hl(x.slice(1))}</div>`:x.startsWith("- ")?`<div class="ln bl">${hl(x.slice(2))}</div>`:`<div class="ln">${hl(x)}</div>`;
+const cell=c=>c.map(ln).join("");
+function html(d){
+  return d.blocks.map(b=>{
+    if(b.t==="sheet")return `<div class="sheet"><div class="hd"><span>${esc(b.head[0])}</span><span>${esc(b.head[1])}</span></div><div class="ln b">${esc(b.sub)}</div>${b.rows.map(r=>`<div class="ln${r.mono?" mono":""}">${r.mono?hl(r.h):esc(r.x)}</div>`).join("")}</div>`;
+    if(b.t==="note")return `<div class="note">${cell(b.lines)}</div>`;
+    if(b.t==="meta")return `<div class="meta">${b.rows.map(r=>`<div><b>${esc(r[0])} :</b> ${esc(r[1])}</div>`).join("")}</div>`;
+    if(b.t==="p")return `<p><b>${esc(b.b)}</b> ${esc(b.x)}</p>`;
+    if(b.t==="table")return `<div class="scroll"><table class="${b.wide?"wide":""}${b.kv?" kv":""}">${b.head?`<thead><tr>${b.head.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead>`:""}<tbody>${b.rows.map(r=>`<tr>${r.map(c=>`<td>${cell(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    if(b.t==="cards")return `<div class="acts">${b.cards.map(a=>`<div class="act"><h4>${esc(a.h)}</h4>${cell(a.lines)}${a.steps.map((x,i)=>ln(`${i+1}. ${x}`)).join("")}</div>`).join("")}</div>`;
+    if(b.t==="slides")return `<div class="slides">${b.slides.map((x,i)=>`<div class="slide${x.cover?" cover":""}"><div class="in"><h4>${esc(x.h)}</h4>${x.ph?`<div class="ph">${esc(x.ph)}</div>`:""}${cell(x.lines)}</div><span class="n">${i+1}</span></div>`).join("")}</div>`;
+    return "";
+  }).join("");
+}
+
+/* ---------- PDF renderer (jsPDF) ---------- */
+const INK=[27,42,78],PEN=[40,69,199],SOFT=[231,235,251],LINE=[190,198,218],GREY=[92,104,138];
+const pt=x=>plain(String(x)).replace(/☐/g,"[  ]").replace(/…/g,"...").replace(/[’]/g,"'");
+function pdfDoc(J,docs){
+  const pdf=new J({unit:"pt",format:"letter",orientation:docs[0].orient});
+  docs.forEach((d,i)=>{if(i)pdf.addPage("letter",d.orient);draw(pdf,d)});
+  return pdf;
+}
+function draw(pdf,d){
+  const M=40;let W=pdf.internal.pageSize.getWidth(),H=pdf.internal.pageSize.getHeight(),y=M;
+  const page=()=>{pdf.addPage("letter",d.orient);y=M};
+  const need=h=>{if(y+h>H-M)page()};
+  const font=(size,bold,mono)=>{pdf.setFont(mono?"courier":"helvetica",bold?"bold":"normal");pdf.setFontSize(size)};
+  // wrap a cell (array of lines) into drawable rows
+  function wrap(c,w,size){
+    const out=[];
+    c.forEach(raw=>{
+      const bold=raw.startsWith("#"),bul=raw.startsWith("- "),x=pt(bold?raw.slice(1):bul?raw.slice(2):raw);
+      font(size,bold);
+      pdf.splitTextToSize(x,w-(bul?9:0)).forEach((t,i)=>out.push({t,bold,dx:bul?9:0,dot:bul&&i===0}));
+    });
+    return out;
+  }
+  function lines(rows,x,size,lh){rows.forEach(r=>{need(lh);font(size,r.bold);pdf.setTextColor(...INK);if(r.dot)pdf.text("•",x,y+size);pdf.text(r.t,x+r.dx,y+size);y+=lh})}
+  function table(b){
+    const full=W-2*M,cw=b.w.map(f=>f*full),pad=5;
+    let size=b.size||9;
+    const rowH=(cells,sz)=>Math.max(...cells.map(c=>c.length))*(sz+2.5)+pad*2;
+    if(b.head){
+      font(7,true);const hw=b.head.map((h,i)=>pdf.splitTextToSize(h,cw[i]-pad*2));const hh=Math.max(...hw.map(a=>a.length))*10+pad*2;
+      need(hh+40);let x=M;
+      hw.forEach((a,i)=>{pdf.setFillColor(...SOFT);pdf.setDrawColor(...LINE);pdf.rect(x,y,cw[i],hh,"FD");pdf.setTextColor(...INK);font(7,true);a.forEach((t,k)=>pdf.text(t,x+pad,y+pad+8+k*10));x+=cw[i]});
+      y+=hh;
+    }
+    b.rows.forEach(r=>{
+      let sz=size,cells=r.map((c,i)=>wrap(c,cw[i]-pad*2,sz)),h=rowH(cells,sz);
+      while(h>H-2*M-20&&sz>6){sz-=.5;cells=r.map((c,i)=>wrap(c,cw[i]-pad*2,sz));h=rowH(cells,sz)}
+      need(h);let x=M;
+      cells.forEach((c,i)=>{
+        pdf.setDrawColor(...LINE);if(b.kv&&i===0){pdf.setFillColor(...SOFT);pdf.rect(x,y,cw[i],h,"FD")}else pdf.rect(x,y,cw[i],h);
+        c.forEach((l,k)=>{font(sz,l.bold);pdf.setTextColor(...INK);const yy=y+pad+sz+k*(sz+2.5);if(l.dot)pdf.text("•",x+pad,yy);pdf.text(l.t,x+pad+l.dx,yy)});
+        x+=cw[i];
+      });
+      y+=h;
+    });
+    y+=10;
+  }
+  function slides(b){
+    b.slides.forEach((s,i)=>{
+      if(i)page();
+      if(s.cover){pdf.setFillColor(...PEN);pdf.rect(0,0,W,H,"F");pdf.setTextColor(255,255,255);font(54,true);pdf.text(pt(s.h),60,H-190);font(18,false);s.lines.forEach((l,k)=>pdf.text(pt(l),60,H-140+k*26))}
+      else{
+        pdf.setFillColor(...PEN);pdf.rect(0,0,W,16,"F");pdf.setTextColor(...INK);font(34,true);pdf.text(pt(s.h),60,90);
+        let yy=130;
+        if(s.ph){pdf.setDrawColor(...GREY);pdf.setLineDashPattern([5,4],0);pdf.rect(60,yy,W-120,210);pdf.setLineDashPattern([],0);font(16,false);pdf.setTextColor(...GREY);pdf.text(pt(s.ph),W/2,yy+110,{align:"center"});yy+=250}
+        s.lines.forEach(raw=>{
+          const bold=raw.startsWith("#"),bul=raw.startsWith("- "),x=pt(bold?raw.slice(1):bul?raw.slice(2):raw);
+          font(21,bold);pdf.setTextColor(...INK);
+          pdf.splitTextToSize(x,W-120-(bul?22:0)).forEach((t,k)=>{if(bul&&k===0)pdf.text("•",62,yy+21);pdf.text(t,60+(bul?22:0),yy+21);yy+=31});
+          yy+=5;
+        });
+      }
+      font(10,false);pdf.setTextColor(...(s.cover?[255,255,255]:GREY));pdf.text(String(i+1),W-40,H-24,{align:"right"});
+    });
+  }
+  if(d.slides){slides(d.blocks[0]);return}
+  font(18,true);pdf.setTextColor(...INK);pdf.text(pt(d.titre).toUpperCase(),M,y+16);
+  pdf.setDrawColor(...PEN);pdf.setLineWidth(2);pdf.line(M,y+24,W-M,y+24);pdf.setLineWidth(.6);y+=40;
+  d.blocks.forEach(b=>{
+    if(b.t==="sheet"){
+      font(10,false);pdf.setTextColor(...GREY);pdf.text(pt(b.head[0]),M,y+10);pdf.text(pt(b.head[1]),W-M,y+10,{align:"right"});y+=26;
+      font(12,true);pdf.setTextColor(...INK);pdf.text(pt(b.sub),M,y+12);y+=26;
+      b.rows.forEach(r=>{font(r.mono?11:11.5,false,r.mono);pdf.setTextColor(...INK);const a=pdf.splitTextToSize(pt(r.x),W-2*M-(r.mono?18:0));a.forEach(t=>{need(18);pdf.text(t,M+(r.mono?18:0),y+12);y+=18});y+=r.mono?6:8});
+    }
+    else if(b.t==="meta"){
+      const half=(W-2*M)/2;
+      b.rows.forEach((r,i)=>{const x=M+(i%2)*half;font(9.5,true);pdf.setTextColor(...INK);const k=pt(r[0])+" : ";pdf.text(k,x,y+10);font(9.5,false);pdf.text(pdf.splitTextToSize(pt(r[1]),half-pdf.getTextWidth(k)-12)[0],x+pdf.getTextWidth(k)+2,y+10);if(i%2||i===b.rows.length-1)y+=15});
+      y+=4;
+    }
+    else if(b.t==="p"){font(9.5,true);const k=pt(b.b)+" ";const kw=pdf.getTextWidth(k);font(9.5,false);const a=pdf.splitTextToSize(k+pt(b.x),W-2*M);a.forEach((t,i)=>{need(13);if(i===0){font(9.5,true);pdf.text(k,M,y+10);font(9.5,false);pdf.text(t.slice(k.length),M+kw,y+10)}else pdf.text(t,M,y+10);y+=13});y+=6}
+    else if(b.t==="table")table(b);
+    else if(b.t==="cards")b.cards.forEach(a=>{
+      const body=wrap(a.lines.concat(a.steps.map((x,i)=>`${i+1}. ${x}`)),W-2*M-20,10.5);
+      need(30+body.length*14.5+16);
+      const h=28+body.length*14.5+10;pdf.setDrawColor(...LINE);pdf.setFillColor(...SOFT);pdf.rect(M,y,W-2*M,h);pdf.rect(M,y,W-2*M,5,"F");
+      font(13,true);pdf.setTextColor(...INK);pdf.text(pt(a.h),M+10,y+22);y+=28;
+      const y0=y;lines(body,M+10,10.5,14.5);y=y0+body.length*14.5+10+14;
+    });
+  });
+}
+
+/* ---------- Page ---------- */
+if(typeof document!=="undefined"){
+  const $=id=>document.getElementById(id);
+  let s={mat:"chanson",niveau:"A1",duree:40,eleves:25,facil:1,publico:"adolescents",proj:1,curso:"",fecha:"",ecole:"",prof:"",lien:"",phrases:""};
+  try{Object.assign(s,JSON.parse(localStorage.getItem("tfp2")||"{}"))}catch(e){}
+  let vue="hoja";
+  let dlP=null;try{if(window.claude&&window.claude.use)dlP=window.claude.use("downloads").catch(()=>null)}catch(e){}
+  $("mats").innerHTML=MATS.map(m=>`<button type="button" class="mat" data-m="${m.id}"><b>${m.es}</b><span>${m.tipo}</span></button>`).join("");
+  $("tabs").innerHTML=VUES.map(v=>`<button type="button" class="tab" role="tab" data-v="${v[0]}">${v[1]}</button>`).join("");
+  ["duree","eleves","facil","publico","curso","fecha","ecole","prof","lien","phrases"].forEach(id=>{$(id).value=s[id]==null?"":String(s[id])});
+  if(s.lien||s.phrases)$("propio").open=true;
+  let tT;function toast(x){const t=$("toast");t.textContent=x;t.hidden=false;clearTimeout(tT);tT=setTimeout(()=>{t.hidden=true},3800)}
+  function render(){
+    document.querySelectorAll(".mat").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===s.mat));
+    document.querySelectorAll("#niveau button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===s.niveau));
+    document.querySelectorAll("#proj button").forEach(b=>b.setAttribute("aria-pressed",(b.dataset.v==="1")===!!s.proj));
+    document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===vue));
+    const m=MATS.find(x=>x.id===s.mat)||MATS[0];
+    $("info").innerHTML=`<p><b>Dónde conseguirlo:</b> ${esc(m.donde)}</p><p><b>Ojo:</b> ${esc(m.ojo)}</p>`;
+    const ph=(s.phrases||"").split(/\n/).map(x=>x.trim()).filter(Boolean).slice(0,6);
+    $("prev").innerHTML=ph.length?`<span class="lab">Así se marca el futur proche:</span>`+ph.map(x=>`<div>${hl(auto(x))}</div>`).join(""):"";
+    const v=VUES.find(x=>x[0]===vue)||VUES[0],d=v[2](s);
+    $("view").innerHTML=`<div class="bar"><h3>${esc(d.titre)}</h3><div class="btns"><button type="button" class="btn solid" data-a="pdf">Descargar PDF</button><button type="button" class="btn" data-a="copy">Copiar texto</button></div></div><div id="doc">${html(d)}</div>`;
+    $("sum").textContent=`${m.es} · ${s.niveau} · ${s.duree} min · ${s.eleves} alumnos`;
+    try{localStorage.setItem("tfp2",JSON.stringify(s))}catch(e){}
+  }
+  function lire(){
+    s.duree=+$("duree").value;s.facil=+$("facil").value;s.publico=$("publico").value;
+    s.eleves=Math.min(60,Math.max(2,parseInt($("eleves").value,10)||25));
+    ["curso","fecha","ecole","prof","lien","phrases"].forEach(id=>{s[id]=$(id).value});render();
+  }
+  ["duree","eleves","facil","publico","curso","fecha","ecole","prof","lien","phrases"].forEach(id=>$(id).addEventListener("input",lire));
+  $("mats").addEventListener("click",e=>{const b=e.target.closest(".mat");if(b){s.mat=b.dataset.m;render()}});
+  $("niveau").addEventListener("click",e=>{const b=e.target.closest("button");if(b){s.niveau=b.dataset.v;render()}});
+  $("proj").addEventListener("click",e=>{const b=e.target.closest("button");if(b){s.proj=b.dataset.v==="1"?1:0;render()}});
+  $("tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(b){vue=b.dataset.v;try{location.hash=vue}catch(x){}render()}});
+  async function guardar(blob,filename){
+    const dl=dlP?await dlP:null;
+    if(dl){
+      try{await dl.save({filename,data:blob});toast("PDF listo: "+filename);return}
+      catch(e){if(e&&e.code==="declined"){toast("Descarga cancelada.");return}if(e&&e.code==="rate_limited"){toast("Espera un momento y vuelve a intentar.");return}}
+    }
+    try{const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast("Si no empezó la descarga, usa «Copiar texto» y pégalo en un documento.")}
+    catch(e){toast("No se pudo descargar aquí. Usa «Copiar texto».")}
+  }
+  async function exportar(todo,btn){
+    if(!window.jspdf||!window.jspdf.jsPDF){toast("No cargó el generador de PDF. Revisa tu conexión y recarga la página.");return}
+    btn.disabled=true;
+    try{
+      const docs=todo?VUES.map(v=>v[2](s)):[(VUES.find(x=>x[0]===vue)||VUES[0])[2](s)];
+      const pdf=pdfDoc(window.jspdf.jsPDF,docs);
+      await guardar(pdf.output("blob"),`Futur_proche_${s.niveau}_${todo?"completo":docs[0].nom}.pdf`);
+    }catch(e){toast("No se pudo crear el PDF. Intenta otra vez.")}
+    btn.disabled=false;
+  }
+  $("todo").addEventListener("click",e=>exportar(true,e.currentTarget));
+  $("view").addEventListener("click",e=>{
+    const b=e.target.closest("button[data-a]");if(!b)return;
+    if(b.dataset.a==="pdf"){exportar(false,b);return}
+    try{navigator.clipboard.writeText($("doc").innerText).then(()=>toast("Texto copiado."),()=>toast("No se pudo copiar. Selecciona el texto a mano."))}catch(x){toast("No se pudo copiar. Selecciona el texto a mano.")}
+  });
+  function route(){const h=location.hash.slice(1);if(VUES.some(v=>v[0]===h))vue=h;render()}
+  window.addEventListener("hashchange",route);route();
+}else{module.exports={MATS,NIV,VUES,temps,groupes,pdfDoc,html,auto};}
+</script>
+</body>
+</html>
