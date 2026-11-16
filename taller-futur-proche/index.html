@@ -109,17 +109,65 @@ table.kv td:first-child{width:32%;background:var(--soft);font-weight:700}
 .act{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg);border-top:4px solid var(--mark)}
 .act h4{margin:0 0 6px;font-size:16.5px}
 .act .ln{font-size:14.5px}
-.slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
-.slide{container-type:inline-size;aspect-ratio:16/9;border:1px solid var(--line);border-radius:8px;background:var(--paper);overflow:hidden;position:relative;border-top:6px solid var(--pen)}
-.slide .in{padding:4.2cqw 5cqw;font-size:3.5cqw;line-height:1.3;height:100%;display:flex;flex-direction:column;gap:1.2cqw}
-.slide h4{font-size:5.8cqw;line-height:1.1;margin:0 0 1cqw;font-weight:800}
-.slide.cover{background:var(--pen);color:var(--pen-ink)}
-.slide.cover .in{justify-content:flex-end}
-.slide.cover h4{font-family:var(--hand);font-weight:400;font-size:9cqw;line-height:1.4}
-.slide .ln{margin:0}.slide .ln.bl{padding-left:4cqw}
-.slide .ph{border:1px dashed var(--muted);border-radius:1.5cqw;padding:2cqw;color:var(--muted);text-align:center;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
-.slide .n{position:absolute;right:2.5cqw;bottom:1.5cqw;font-size:2.8cqw;color:var(--muted)}
-.slide.cover .n{color:inherit;opacity:.7}
+/* Slides imitate the printed PDF, so they keep fixed paper colors in both themes. */
+.slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.slide{container-type:inline-size;aspect-ratio:11/8.5;border:1px solid var(--line);border-radius:8px;overflow:hidden;position:relative;background-color:#FFFFFF;color:#1B2A4E;
+  background-image:linear-gradient(90deg,transparent 5.8cqw,#E0566B 5.8cqw,#E0566B calc(5.8cqw + 1px),transparent calc(5.8cqw + 1px)),linear-gradient(#EBEFFA 1px,transparent 1px);background-size:100% 100%,100% 3cqw}
+.slide .in{position:absolute;inset:0;padding:6cqw 6cqw 7.5cqw 9cqw;display:flex;flex-direction:column;gap:1.8cqw;font-size:2.9cqw;line-height:1.3}
+.slide h4{font-size:4.4cqw;font-weight:800;margin:0;line-height:1.1}
+.slide h4::after{content:"";display:block;width:9cqw;height:.8cqw;background:#FFE566;margin-top:1.1cqw}
+.slide mark{background:#FFE566;color:#1B2A4E}
+.slide .foot{position:absolute;left:9cqw;right:4cqw;bottom:2.4cqw;display:flex;justify-content:space-between;font-size:1.5cqw;color:#5C688A}
+.slide.cover{background:#2845C7;color:#FFFFFF;background-image:none}
+.slide.cover .in{justify-content:center}
+.slide.cover h4{font-family:var(--hand);font-weight:400;font-size:7.6cqw;line-height:1.5}
+.slide.cover h4::after{display:none}
+.slide.cover .q{align-self:flex-start;background:#FFE566;color:#1B2A4E;font-weight:800;font-size:3.2cqw;padding:.7cqw 1.8cqw;border-radius:1cqw;margin-bottom:3cqw}
+.slide.cover .foot{color:#DDE3FF}
+.sl-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.5cqw;font-size:3.1cqw}
+.sl-list li{display:flex;gap:1.8cqw;align-items:baseline}
+.sl-list li::before{content:"";flex:none;width:1.5cqw;height:1.5cqw;background:#FFE566;border:1px solid #D9B400;border-radius:.3cqw}
+.sl-list.num{counter-reset:k}
+.sl-list.num li{counter-increment:k;align-items:center}
+.sl-list.num li::before{content:counter(k);width:3.6cqw;height:3.6cqw;border-radius:50%;background:#2845C7;color:#FFFFFF;border:0;display:grid;place-items:center;font-size:2cqw;font-weight:800}
+.sl-list.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:2.6cqw}
+.slide .intro{font-weight:700;color:#2845C7;font-size:2.9cqw}
+.slide .ph{flex:1;border:.3cqw dashed #9AA6C4;border-radius:1.6cqw;display:grid;place-items:center;color:#5C688A;font-size:2.7cqw;text-align:center;padding:2cqw;min-height:0}
+.slide .ask{background:#E7EBFB;border-radius:1.4cqw;padding:1.3cqw 2cqw;font-weight:800;font-size:3.1cqw}
+.tl{position:relative;margin-top:auto;height:12cqw;margin-right:1cqw}
+.tl::before{content:"";position:absolute;left:0;right:2.6cqw;top:2.6cqw;height:.6cqw;background:#1B2A4E;border-radius:1cqw}
+.tl::after{content:"";position:absolute;right:0;top:1.3cqw;border-left:3cqw solid #1B2A4E;border-top:1.6cqw solid transparent;border-bottom:1.6cqw solid transparent}
+.tl span{position:absolute;top:1.2cqw;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5cqw;font-size:2cqw;font-weight:800;text-align:center}
+.tl span::before{content:"";width:3.4cqw;height:3.4cqw;border-radius:50%;background:#FFFFFF;border:.5cqw solid #1B2A4E;box-sizing:border-box}
+.tl span.on::before{background:#FFE566}
+.tl span i{font-style:normal;font-weight:400;color:#5C688A}
+.fx{display:flex;align-items:center;justify-content:center;gap:3cqw;margin-top:1cqw}
+.fx div{border-radius:2cqw;padding:2.4cqw 3.4cqw;text-align:center;font-weight:800;font-size:4.8cqw;line-height:1.1;min-width:28cqw}
+.fx div small{display:block;font-size:2cqw;font-weight:600;margin-top:.7cqw}
+.fx .a{background:#2845C7;color:#FFFFFF}
+.fx .b{background:#FFE566}
+.fx b{font-size:6cqw}
+.slide .eq{text-align:center;color:#5C688A;font-size:2.6cqw}
+.slide .ex{text-align:center;font-size:3.6cqw;margin-top:auto;margin-bottom:auto}
+.slide .ex small{display:block;font-size:2cqw;font-weight:800;color:#2845C7;letter-spacing:.06em;text-transform:uppercase}
+table.cj{border-collapse:separate;border-spacing:.8cqw;margin:0 auto;font-size:2.9cqw;width:auto}
+table.cj th,table.cj td{border:0;padding:.7cqw 2.4cqw;border-radius:.8cqw;background:transparent}
+table.cj th{color:#5C688A;font-size:1.8cqw;text-transform:uppercase;letter-spacing:.06em}
+table.cj td:nth-child(1){text-align:right;font-weight:600}
+table.cj td:nth-child(2){background:#FFE566;font-weight:800;text-align:center}
+table.cj td:nth-child(3){background:#E7EBFB}
+.er{display:grid;grid-template-columns:1fr 1fr;gap:1.3cqw 2cqw;font-size:2.8cqw}
+.er div{border-radius:1.2cqw;padding:1.3cqw 1.8cqw;display:flex;gap:1.4cqw;align-items:baseline}
+.er .no{background:#FDE4E8}
+.er .no s{text-decoration-thickness:.25cqw;text-decoration-color:#C62845}
+.er .yes{background:#DEF5E6}
+.er b{font-size:1.7cqw;letter-spacing:.06em;flex:none}
+.er .no b{color:#C62845}
+.er .yes b{color:#1E7A45}
+.slide .tt{margin:0;font-size:3.4cqw;color:#2845C7;font-weight:800}
+.slide .tx{margin:0;font-size:2.9cqw}
+.bub{align-self:flex-start;position:relative;background:#FFE566;border-radius:2cqw;padding:1.8cqw 3cqw;font-weight:800;font-size:3.8cqw;margin-top:1.4cqw}
+.bub::after{content:"";position:absolute;left:4cqw;bottom:-2cqw;border-top:2.2cqw solid #FFE566;border-right:2.6cqw solid transparent}
 .small{font-size:14px;color:var(--muted);margin:10px 0 0}
 
 .dock{position:sticky;bottom:0;z-index:5;background:var(--ink);color:var(--paper);border-radius:14px 14px 0 0;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -135,7 +183,7 @@ table.kv td:first-child{width:32%;background:var(--soft);font-weight:700}
   <header class="hero">
     <p class="eyebrow">Clase de francés · Le futur proche</p>
     <h1>Je <mark>vais préparer</mark> ma classe.</h1>
-    <p class="lead">Elige un material auténtico, cuenta cómo es tu clase y descarga en PDF la hoja de sensibilización, el plan de aula, la ficha pedagógica, las actividades y las diapositivas.</p>
+    <p class="lead">Elige un material auténtico, cuenta cómo es tu clase y descarga en PDF lo que pide el examen: plan de séance, fiche pédagogique, diapositives y feuille de consignes.</p>
   </header>
 
   <section class="step" aria-labelledby="h-1">
@@ -172,7 +220,7 @@ table.kv td:first-child{width:32%;background:var(--soft);font-weight:700}
 
   <section class="step" aria-labelledby="h-3">
     <div class="step-h"><span class="num">3</span><h2 id="h-3">Revisa y descarga tus documentos</h2></div>
-    <p class="hint">Salen en francés, listos para entregar.</p>
+    <p class="hint">Salen en francés, listos para entregar. Los cuatro primeros son los que pide el examen.</p>
     <nav class="tabs" role="tablist" aria-label="Documentos" id="tabs"></nav>
     <div id="view"></div>
     <p class="small">Si no pegaste frases reales, las de la hoja y las diapositivas son ejemplos de formato: cámbialas por las de tu material.</p>
@@ -339,22 +387,33 @@ function dActs(s){
   return {titre:"Activités didactiques",nom:"activites",orient:"portrait",blocks:[{t:"cards",cards:n.acts.map(a=>({h:a.t,lines:[`Objectif : ${a.o}`,`Durée : ${d} min · Organisation : ${a.bin?g.binomes:g.equipes}`,`Matériel : ${a.m}`],steps:a.d}))},
     {t:"note",lines:["Son actividades de práctica para la etapa de Production o para una clase siguiente."]}]};
 }
+const SLX={
+ A1:{inf:"manger",conj:[["je","vais"],["tu","vas"],["il / elle / on","va"]],
+  err:[["Je va manger.","Je vais manger."],["Je vais à manger.","Je vais manger."],["Tu vas mange.","Tu vas manger."]]},
+ A2:{inf:"partir",conj:[["je","vais"],["tu","vas"],["il / elle / on","va"],["nous","allons"],["vous","allez"],["ils / elles","vont"]],
+  err:[["Je vais ne pas sortir.","Je ne vais pas sortir."],["Nous vont partir.","Nous allons partir."],["Ils allez venir.","Ils vont venir."]]},
+ B1:{inf:"",conj:[["je","vais","me lever"],["tu","vas","te lever"],["il / elle / on","va","se lever"],["nous","allons","nous lever"],["vous","allez","vous lever"],["ils / elles","vont","se lever"]],
+  err:[["Je me vais lever.","Je vais me lever."],["Je le vais faire.","Je vais le faire."],["Regarde ! Il pleuvra.","Regarde ! Il va pleuvoir."]]}
+};
 function dDiapos(s){
-  const c=ctx(s),{m,n}=c;
+  const c=ctx(s),{m,n}=c,X=SLX[s.niveau]||SLX.A1;
   const S=[
-   {cover:1,h:"Le futur proche",lines:[`Niveau ${s.niveau} · ${s.duree} min`+(c.date?` · ${c.date}`:""),c.ecole+(c.classe?` · ${c.classe}`:""),c.prof]},
-   {h:"Découvrons",ph:`Insérer ici : ${m.doc}`,lines:["#"+m.q]},
-   {h:"Repérage",lines:[c.consigne,...c.lignes.map(x=>"- "+(c.custom?x:x))]},
-   {h:"Observons",lines:[...c.marquees.slice(0,4).map(x=>"- "+x),"#Passé, présent ou futur ?"]},
-   {h:"La règle",lines:["[[aller au présent]] + [[infinitif]]",...n.conj.map(x=>"- "+x+(s.niveau==="B1"?"":" + manger"))]},
-   {h:n.extra.t,lines:n.extra.l},
-   {h:"Entraînement",lines:["#"+n.exo.t,...n.exo.i.map(x=>"- "+x)]},
-   {h:"À vous !",lines:["#"+n.prod.t,n.prod.c,n.prod.m]},
-   {h:"Pour finir",lines:["Dis une phrase au futur proche avant de sortir.","Demain, je vais…"]}
+   {k:"cover",h:"Le futur proche",sub:"Qu'est-ce que tu vas faire ?",lines:[`Niveau ${s.niveau} · ${s.duree} min`+(c.date?` · ${c.date}`:""),c.ecole+(c.classe?` · ${c.classe}`:""),c.prof]},
+   {k:"list",h:"Aujourd'hui, on va…",items:["On [[va découvrir]] un document authentique.","On [[va apprendre]] le futur proche.","On [[va parler]] de nos projets."]},
+   {k:"ph",h:"Découvrons",ph:`Insérer ici : ${m.doc}`,q:m.q},
+   {k:"list",h:"Repérage",intro:c.consigne,items:c.lignes.map(plain),mono:!c.custom},
+   {k:"timeline",h:"Observons",items:c.marquees.slice(0,3),q:"Ces phrases parlent du passé, du présent ou du futur ?"},
+   {k:"formula",h:"La règle",ex:n.ex[0]},
+   {k:"conj",h:"Le verbe aller",rows:X.conj.map(r=>[r[0],r[1],r[2]||X.inf])},
+   {k:"list",h:n.extra.t,items:n.extra.l.map(x=>x.replace(/^- /,""))},
+   {k:"errors",h:"Attention !",rows:X.err},
+   {k:"list",h:"Entraînement",intro:n.exo.t,items:n.exo.i,num:1},
+   {k:"task",h:"À vous !",title:n.prod.t,text:n.prod.c,model:n.prod.m},
+   {k:"task",h:"Pour finir",title:"Le ticket de sortie",text:"Avant de sortir, dis une phrase au futur proche.",model:"Demain, je vais…"}
   ];
-  const note=[`Corrigé de l'exercice : ${n.exo.c}`];
-  if(!s.proj)note.push("Sin proyector: imprime las láminas 2 a 5 o cópialas en la pizarra.");
-  return {titre:"Diapositives",nom:"diapositives",orient:"landscape",slides:1,blocks:[{t:"slides",slides:S},{t:"note",lines:note}]};
+  const note=[`Corrigé de l'exercice : ${n.exo.c}`,"Lámina 3: reemplaza el recuadro por una captura o el video del material."];
+  if(!s.proj)note.push("Sin proyector: imprime las láminas 5 a 9 como afiches o cópialas en la pizarra.");
+  return {titre:"Diapositives",nom:"diapositives",orient:"landscape",slides:1,foot:`Le futur proche · ${s.niveau}`,blocks:[{t:"slides",slides:S},{t:"note",lines:note}]};
 }
 function dConsignes(s){
   const c=ctx(s),{m,n}=c,E=etapes(s);
@@ -366,12 +425,12 @@ function dConsignes(s){
    [[`#4. ${E[3].nom}`,`${E[3].d} min`],[`« ${n.prod.c} »`,`« Commencez par : ${n.prod.m} »`],["- Donner un modèle à voix haute avant de commencer.","- Circuler et aider ; noter les erreurs fréquentes."]],
    [[`#5. ${E[4].nom}`,`${E[4].d} min`],["« Avant de sortir, dites une phrase au futur proche. »","« Par exemple : Demain, je vais… »"],["- Écouter chaque apprenant.","- Corriger l'erreur la plus fréquente."]]
   ];
-  return {titre:"Consignes",nom:"consignes",orient:"portrait",blocks:[
-   {t:"note",lines:["#Qué son las consignas:","Son las instrucciones que la docente dice a los alumnos en cada actividad, en francés simple: verbo en imperativo, frase corta y un ejemplo."]},
+  return {titre:"Feuille de consignes",nom:"feuille_de_consignes",orient:"portrait",blocks:[
+   {t:"note",pdf:1,lines:["#Qué son las consignas:","Son las instrucciones que la docente dice a los alumnos en cada actividad, en francés simple: verbo en imperativo, frase corta y un ejemplo."]},
    {t:"table",size:9.5,w:[.2,.45,.35],head:["ÉTAPE","CONSIGNE (à dire aux apprenants)","CE QUE FAIT L'ENSEIGNANT(E)"],rows:R},
-   {t:"note",lines:["#Conseils :","- Une consigne = une action. Phrases courtes.","- Montrer un exemple avant de commencer.","- Vérifier la compréhension : « Qu'est-ce qu'on fait ? »"]}]};
+   {t:"note",pdf:1,lines:["#Conseils :","- Une consigne = une action. Phrases courtes.","- Montrer un exemple avant de commencer.","- Vérifier la compréhension : « Qu'est-ce qu'on fait ? »"]}]};
 }
-const VUES=[["hoja","Hoja de sensibilización",dHoja],["plan","Plan de séance",dPlan],["ficha","Ficha pedagógica",dFicha],["diapositivas","Diapositivas",dDiapos],["consignas","Consignas",dConsignes],["actividades","Actividades",dActs]];
+const VUES=[["plan","Plan de séance",dPlan],["ficha","Fiche pédagogique",dFicha],["diapositivas","Diapositives",dDiapos],["consignas","Feuille de consignes",dConsignes],["hoja","Hoja para alumnos",dHoja],["actividades","Juegos extra",dActs]];
 
 /* ---------- HTML renderer ---------- */
 const ln=x=>x.startsWith("#")?`<div class="ln b">${hl(x.slice(1))}</div>`:x.startsWith("- ")?`<div class="ln bl">${hl(x.slice(2))}</div>`:`<div class="ln">${hl(x)}</div>`;
@@ -384,9 +443,22 @@ function html(d){
     if(b.t==="p")return `<p><b>${esc(b.b)}</b> ${esc(b.x)}</p>`;
     if(b.t==="table")return `<div class="scroll"><table class="${b.wide?"wide":""}${b.kv?" kv":""}">${b.head?`<thead><tr>${b.head.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead>`:""}<tbody>${b.rows.map(r=>`<tr>${r.map(c=>`<td>${cell(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
     if(b.t==="cards")return `<div class="acts">${b.cards.map(a=>`<div class="act"><h4>${esc(a.h)}</h4>${cell(a.lines)}${a.steps.map((x,i)=>ln(`${i+1}. ${x}`)).join("")}</div>`).join("")}</div>`;
-    if(b.t==="slides")return `<div class="slides">${b.slides.map((x,i)=>`<div class="slide${x.cover?" cover":""}"><div class="in"><h4>${esc(x.h)}</h4>${x.ph?`<div class="ph">${esc(x.ph)}</div>`:""}${cell(x.lines)}</div><span class="n">${i+1}</span></div>`).join("")}</div>`;
+    if(b.t==="slides")return `<div class="slides">${b.slides.map((x,i)=>slideHTML(x,i,d.foot)).join("")}</div>`;
     return "";
   }).join("");
+}
+function slideHTML(x,i,foot){
+  const list=(items,cls)=>`<ul class="sl-list${cls||""}">${items.map(t=>`<li><span>${hl(t)}</span></li>`).join("")}</ul>`;
+  let b=`<h4>${esc(x.h)}</h4>`;
+  if(x.k==="cover")b+=`<div class="q">${esc(x.sub)}</div>${x.lines.map(l=>`<div>${esc(l)}</div>`).join("")}`;
+  else if(x.k==="list")b+=(x.intro?`<div class="intro">${hl(x.intro)}</div>`:"")+list(x.items,(x.num?" num":"")+(x.mono?" mono":""));
+  else if(x.k==="ph")b+=`<div class="ph">${esc(x.ph)}</div><div class="ask">${esc(x.q)}</div>`;
+  else if(x.k==="timeline")b+=list(x.items)+`<div class="tl"><span style="left:14%">HIER<i>passé</i></span><span style="left:46%">AUJOURD'HUI<i>présent</i></span><span class="on" style="left:80%">DEMAIN<i>futur</i></span></div><div class="ask">${esc(x.q)}</div>`;
+  else if(x.k==="formula")b+=`<div class="fx"><div class="a">ALLER<small>au présent</small></div><b>+</b><div class="b">INFINITIF<small>manger, partir, faire…</small></div></div><div class="eq">= une action proche dans le futur</div><div class="ex"><small>Exemple</small>${hl(x.ex)}</div>`;
+  else if(x.k==="conj")b+=`<table class="cj"><thead><tr><th>Sujet</th><th>Aller</th><th>Infinitif</th></tr></thead><tbody>${x.rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table>`;
+  else if(x.k==="errors")b+=`<div class="er">${x.rows.map(r=>`<div class="no"><b>NON</b><s>${esc(r[0])}</s></div><div class="yes"><b>OUI</b><span>${esc(r[1])}</span></div>`).join("")}</div>`;
+  else if(x.k==="task")b+=`<p class="tt">${esc(x.title)}</p><p class="tx">${esc(x.text)}</p><div class="bub">${esc(x.model)}</div>`;
+  return `<div class="slide${x.k==="cover"?" cover":""}"><div class="in">${b}</div><div class="foot"><span>${esc(foot||"")}</span><span>${i+1}</span></div></div>`;
 }
 
 /* ---------- PDF renderer (jsPDF) ---------- */
@@ -437,21 +509,70 @@ function draw(pdf,d){
     y+=10;
   }
   function slides(b){
+    const MK=[255,229,102],RED=[224,86,107],L=78,R=W-60;
+    // text with [[highlighted]] parts; shrinks to fit max width
+    const rich=(txt,x,yy,size,o={})=>{
+      font(size,o.bold,o.mono);
+      const parts=String(txt).split(/(\[\[.+?\]\])/).filter(Boolean).map(sg=>{const mk=sg.startsWith("[[");const t=pt(mk?sg.slice(2,-2):sg);return {t,mk,w:pdf.getTextWidth(t)}});
+      const tot=parts.reduce((a,p)=>a+p.w,0);
+      if(o.max&&tot>o.max&&size>11)return rich(txt,x,yy,size-1,o);
+      let xx=o.center?x-tot/2:x;
+      parts.forEach(p=>{if(p.mk){pdf.setFillColor(...MK);pdf.rect(xx-1,yy-size*.8,p.w+2,size*1.05,"F")}pdf.setTextColor(...(o.color||INK));pdf.text(p.t,xx,yy);xx+=p.w});
+    };
+    const para=(txt,x,yy,size,w,o={})=>{font(size,o.bold);pdf.setTextColor(...(o.color||INK));const a=pdf.splitTextToSize(pt(txt),w);a.forEach((t,k)=>pdf.text(t,x,yy+k*size*1.3));return yy+a.length*size*1.3};
+    const bg=()=>{pdf.setFillColor(255,255,255);pdf.rect(0,0,W,H,"F");pdf.setDrawColor(235,239,250);pdf.setLineWidth(.6);for(let yy=24;yy<H;yy+=24)pdf.line(0,yy,W,yy);pdf.setDrawColor(...RED);pdf.setLineWidth(1);pdf.line(52,0,52,H);pdf.setLineWidth(.6)};
+    const head=h=>{font(30,true);pdf.setTextColor(...INK);pdf.text(pt(h),L,78);pdf.setFillColor(...MK);pdf.rect(L,90,70,6,"F")};
+    const ask=(q,yy)=>{pdf.setFillColor(...SOFT);pdf.roundedRect(L,yy,R-L,50,10,10,"F");font(20,true);pdf.setTextColor(...INK);pdf.text(pdf.splitTextToSize(pt(q),R-L-36)[0],L+18,yy+32)};
+    const items=(arr,yy,o={})=>{const step=arr.length>4?38:46;arr.forEach((t,k)=>{const y0=yy+k*step;
+      if(o.num){pdf.setFillColor(...PEN);pdf.circle(L+12,y0-7,13,"F");font(13,true);pdf.setTextColor(255,255,255);pdf.text(String(k+1),L+12,y0-2.5,{align:"center"})}
+      else{pdf.setFillColor(...MK);pdf.setDrawColor(217,180,0);pdf.rect(L+4,y0-14,12,12,"FD")}
+      rich(t,L+36,y0,o.mono?18:21,{mono:o.mono,max:R-L-40})});return yy+arr.length*step};
     b.slides.forEach((s,i)=>{
       if(i)page();
-      if(s.cover){pdf.setFillColor(...PEN);pdf.rect(0,0,W,H,"F");pdf.setTextColor(255,255,255);font(54,true);pdf.text(pt(s.h),60,H-190);font(18,false);s.lines.forEach((l,k)=>pdf.text(pt(l),60,H-140+k*26))}
-      else{
-        pdf.setFillColor(...PEN);pdf.rect(0,0,W,16,"F");pdf.setTextColor(...INK);font(34,true);pdf.text(pt(s.h),60,90);
-        let yy=130;
-        if(s.ph){pdf.setDrawColor(...GREY);pdf.setLineDashPattern([5,4],0);pdf.rect(60,yy,W-120,210);pdf.setLineDashPattern([],0);font(16,false);pdf.setTextColor(...GREY);pdf.text(pt(s.ph),W/2,yy+110,{align:"center"});yy+=250}
-        s.lines.forEach(raw=>{
-          const bold=raw.startsWith("#"),bul=raw.startsWith("- "),x=pt(bold?raw.slice(1):bul?raw.slice(2):raw);
-          font(21,bold);pdf.setTextColor(...INK);
-          pdf.splitTextToSize(x,W-120-(bul?22:0)).forEach((t,k)=>{if(bul&&k===0)pdf.text("•",62,yy+21);pdf.text(t,60+(bul?22:0),yy+21);yy+=31});
-          yy+=5;
-        });
+      if(s.k==="cover"){
+        pdf.setFillColor(...PEN);pdf.rect(0,0,W,H,"F");
+        font(60,true);pdf.setTextColor(255,255,255);pdf.text(pt(s.h),L,250);
+        font(24,true);const w=pdf.getTextWidth(pt(s.sub));pdf.setFillColor(...MK);pdf.roundedRect(L,276,w+36,48,10,10,"F");pdf.setTextColor(...INK);pdf.text(pt(s.sub),L+18,308);
+        font(16,false);pdf.setTextColor(255,255,255);s.lines.forEach((l,k)=>pdf.text(pt(l),L,420+k*26));
+      }else{
+        bg();head(s.h);
+        if(s.k==="list"){let yy=140;if(s.intro){yy=para(s.intro,L,yy,18,R-L,{bold:1,color:PEN})+22}items(s.items,yy+10,{num:s.num,mono:s.mono})}
+        else if(s.k==="ph"){pdf.setDrawColor(154,166,196);pdf.setLineWidth(1.5);pdf.setLineDashPattern([7,5],0);pdf.roundedRect(L,120,R-L,280,14,14);pdf.setLineDashPattern([],0);pdf.setLineWidth(.6);font(18,false);pdf.setTextColor(...GREY);pdf.text(pt(s.ph),(L+R)/2,265,{align:"center"});ask(s.q,428)}
+        else if(s.k==="timeline"){
+          items(s.items,150);
+          const y0=400;pdf.setDrawColor(...INK);pdf.setLineWidth(4);pdf.line(L,y0,R-26,y0);pdf.setLineWidth(.6);pdf.setFillColor(...INK);pdf.triangle(R-28,y0-11,R-28,y0+11,R,y0,"F");
+          [[.16,"HIER","passé"],[.48,"AUJOURD'HUI","présent"],[.8,"DEMAIN","futur"]].forEach(([f,a,z],k)=>{const x=L+(R-L)*f;pdf.setDrawColor(...INK);pdf.setLineWidth(3);pdf.setFillColor(...(k===2?MK:[255,255,255]));pdf.circle(x,y0,k===2?13:10,"FD");pdf.setLineWidth(.6);font(14,true);pdf.setTextColor(...INK);pdf.text(a,x,y0+36,{align:"center"});font(12,false);pdf.setTextColor(...GREY);pdf.text(z,x,y0+53,{align:"center"})});
+          ask(s.q,480);
+        }
+        else if(s.k==="formula"){
+          const bw=250,bh=130,y0=140,x1=L+40,x2=R-40-bw;
+          pdf.setFillColor(...PEN);pdf.roundedRect(x1,y0,bw,bh,16,16,"F");font(40,true);pdf.setTextColor(255,255,255);pdf.text("ALLER",x1+bw/2,y0+70,{align:"center"});font(16,false);pdf.text("au présent",x1+bw/2,y0+100,{align:"center"});
+          font(56,true);pdf.setTextColor(...INK);pdf.text("+",(x1+bw+x2)/2,y0+84,{align:"center"});
+          pdf.setFillColor(...MK);pdf.roundedRect(x2,y0,bw,bh,16,16,"F");font(34,true);pdf.setTextColor(...INK);pdf.text("INFINITIF",x2+bw/2,y0+70,{align:"center"});font(14,false);pdf.text("manger, partir, faire...",x2+bw/2,y0+100,{align:"center"});
+          font(18,false);pdf.setTextColor(...GREY);pdf.text("= une action proche dans le futur",(L+R)/2,325,{align:"center"});
+          font(13,true);pdf.setTextColor(...PEN);pdf.text("EXEMPLE",(L+R)/2,395,{align:"center"});rich(s.ex,(L+R)/2,440,32,{center:1,bold:1,max:R-L});
+        }
+        else if(s.k==="conj"){
+          const n=s.rows.length,rh=n<=3?58:44,sz=n<=3?28:21,cw=[200,160,220],x0=(L+R)/2-(cw[0]+cw[1]+cw[2]+20)/2;
+          font(12,true);pdf.setTextColor(...GREY);pdf.text("SUJET",x0+cw[0]-10,138,{align:"right"});pdf.text("ALLER",x0+cw[0]+10+cw[1]/2,138,{align:"center"});pdf.text("INFINITIF",x0+cw[0]+cw[1]+34,138);
+          s.rows.forEach((r,k)=>{const y=152+k*(rh+8),cy=y+rh/2+sz*.35;
+            font(sz,false);pdf.setTextColor(...INK);pdf.text(pt(r[0]),x0+cw[0]-10,cy,{align:"right"});
+            pdf.setFillColor(...MK);pdf.roundedRect(x0+cw[0]+10,y,cw[1],rh,8,8,"F");font(sz,true);pdf.text(pt(r[1]),x0+cw[0]+10+cw[1]/2,cy,{align:"center"});
+            pdf.setFillColor(...SOFT);pdf.roundedRect(x0+cw[0]+cw[1]+20,y,cw[2],rh,8,8,"F");font(sz,false);pdf.text(pt(r[2]),x0+cw[0]+cw[1]+34,cy)});
+        }
+        else if(s.k==="errors"){
+          const cw=(R-L-20)/2;
+          s.rows.forEach((r,k)=>{const y=140+k*78,cy=y+38;
+            pdf.setFillColor(253,228,232);pdf.roundedRect(L,y,cw,60,10,10,"F");font(12,true);pdf.setTextColor(198,40,69);pdf.text("NON",L+16,cy);
+            font(20,false);pdf.setTextColor(...INK);const t=pt(r[0]);pdf.text(t,L+64,cy);pdf.setDrawColor(198,40,69);pdf.setLineWidth(2);pdf.line(L+62,cy-7,L+66+pdf.getTextWidth(t),cy-7);pdf.setLineWidth(.6);
+            const x2=L+cw+20;pdf.setFillColor(222,245,230);pdf.roundedRect(x2,y,cw,60,10,10,"F");font(12,true);pdf.setTextColor(30,122,69);pdf.text("OUI",x2+16,cy);font(20,true);pdf.setTextColor(...INK);pdf.text(pt(r[1]),x2+60,cy)});
+        }
+        else if(s.k==="task"){
+          let yy=para(s.title,L,150,26,R-L,{bold:1,color:PEN})+10;yy=para(s.text,L,yy,21,R-L)+24;
+          font(28,true);const w=Math.min(pdf.getTextWidth(pt(s.model)),R-L-80);pdf.setFillColor(...MK);pdf.roundedRect(L,yy,w+60,70,16,16,"F");pdf.triangle(L+40,yy+68,L+80,yy+68,L+40,yy+96,"F");pdf.setTextColor(...INK);pdf.text(pt(s.model),L+30,yy+46,{maxWidth:R-L-80});
+        }
       }
-      font(10,false);pdf.setTextColor(...(s.cover?[255,255,255]:GREY));pdf.text(String(i+1),W-40,H-24,{align:"right"});
+      font(10,false);pdf.setTextColor(...(s.k==="cover"?[221,227,255]:GREY));pdf.text(pt(d.foot||""),L,H-22);pdf.text(String(i+1),W-40,H-22,{align:"right"});
     });
   }
   if(d.slides){slides(d.blocks[0]);return}
@@ -470,6 +591,7 @@ function draw(pdf,d){
     }
     else if(b.t==="p"){font(9.5,true);const k=pt(b.b)+" ";const kw=pdf.getTextWidth(k);font(9.5,false);const a=pdf.splitTextToSize(k+pt(b.x),W-2*M);a.forEach((t,i)=>{need(13);if(i===0){font(9.5,true);pdf.text(k,M,y+10);font(9.5,false);pdf.text(t.slice(k.length),M+kw,y+10)}else pdf.text(t,M,y+10);y+=13});y+=6}
     else if(b.t==="table")table(b);
+    else if(b.t==="note"&&b.pdf){const rows=wrap(b.lines,W-2*M-24,10);const h=rows.length*14+18;need(h);pdf.setFillColor(...SOFT);pdf.roundedRect(M,y,W-2*M,h,6,6,"F");y+=8;lines(rows,M+12,10,14);y+=16}
     else if(b.t==="cards")b.cards.forEach(a=>{
       const body=wrap(a.lines.concat(a.steps.map((x,i)=>`${i+1}. ${x}`)),W-2*M-20,10.5);
       need(30+body.length*14.5+16);
@@ -483,9 +605,9 @@ function draw(pdf,d){
 /* ---------- Page ---------- */
 if(typeof document!=="undefined"){
   const $=id=>document.getElementById(id);
-  let s={mat:"chanson",niveau:"A1",duree:30,eleves:25,facil:1,publico:"adolescents",proj:1,curso:"",fecha:"",ecole:"",prof:"",lien:"",phrases:""};
-  try{Object.assign(s,JSON.parse(localStorage.getItem("tfp3")||"{}"))}catch(e){}
-  let vue="hoja";
+  let s={mat:"chanson",niveau:"A1",duree:30,eleves:25,facil:3,publico:"adolescents",proj:1,curso:"",fecha:"",ecole:"",prof:"",lien:"",phrases:""};
+  try{Object.assign(s,JSON.parse(localStorage.getItem("tfp4")||"{}"))}catch(e){}
+  let vue="plan";
   let dlP=null;try{if(window.claude&&window.claude.use)dlP=window.claude.use("downloads").catch(()=>null)}catch(e){}
   $("mats").innerHTML=MATS.map(m=>`<button type="button" class="mat" data-m="${m.id}"><b>${m.es}</b><span>${m.tipo}</span></button>`).join("");
   $("tabs").innerHTML=VUES.map(v=>`<button type="button" class="tab" role="tab" data-v="${v[0]}">${v[1]}</button>`).join("");
@@ -504,7 +626,7 @@ if(typeof document!=="undefined"){
     const v=VUES.find(x=>x[0]===vue)||VUES[0],d=v[2](s);
     $("view").innerHTML=`<div class="bar"><h3>${esc(d.titre)}</h3><div class="btns"><button type="button" class="btn solid" data-a="pdf">Descargar PDF</button><button type="button" class="btn" data-a="copy">Copiar texto</button></div></div><div id="doc">${html(d)}</div>`;
     $("sum").textContent=`${m.es} · ${s.niveau} · ${s.duree} min · ${s.eleves} alumnos`;
-    try{localStorage.setItem("tfp3",JSON.stringify(s))}catch(e){}
+    try{localStorage.setItem("tfp4",JSON.stringify(s))}catch(e){}
   }
   function lire(){
     s.duree=+$("duree").value;s.facil=+$("facil").value;s.publico=$("publico").value;
