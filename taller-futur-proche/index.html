@@ -315,7 +315,7 @@ function dPlan(s){
   const meta=[["ÉTABLISSEMENT",c.ecole],["NIVEAU",s.niveau+(c.classe?` · ${c.classe}`:"")],["UNITÉ","Le futur proche"],["NOMBRE D'APPRENANTS",`${s.eleves} (${c.pub})`],[s.facil>1?"FACILITATEURS":"ENSEIGNANT(E)",c.prof],["DURÉE",`${s.duree} minutes`]];
   if(c.date)meta.push(["DATE",c.date]);
   const mat=[m.support,"Fiches de repérage",s.proj?"Diapositives et projecteur":"Affiches avec la règle (sans projecteur)","Tableau et marqueurs"];
-  return {titre:"Plan de classe",nom:"plan_de_classe",orient:"landscape",blocks:[
+  return {titre:"Plan de séance",nom:"plan_de_seance",orient:"landscape",blocks:[
     {t:"meta",rows:meta},{t:"p",b:"OBJECTIF GÉNÉRAL :",x:n.objGen},
     {t:"table",wide:1,size:8,w:[.13,.15,.26,.06,.1,.1,.11,.09],head:["OBJECTIFS SPÉCIFIQUES","CONTENUS","ACTIVITÉS","DURÉE","MATÉRIEL","ORGANISATION","COMPÉTENCES","ÉVALUATION"],
      rows:[[n.objSpec.map((x,i)=>`${i+1}. ${x}`),["#Grammaire :",...n.gram.map(x=>"- "+x),"#Lexique :",...n.lex.map(x=>"- "+x),"#Phonétique :","- "+n.phon],acts,[`${s.duree} min`],mat.map(x=>"- "+x),org.map(x=>"- "+x),["- Compréhension "+(m.oral?"orale":"écrite"),"- Production orale","- Production écrite","- Grammaire"],[n.eval]]]}]};
@@ -356,7 +356,22 @@ function dDiapos(s){
   if(!s.proj)note.push("Sin proyector: imprime las láminas 2 a 5 o cópialas en la pizarra.");
   return {titre:"Diapositives",nom:"diapositives",orient:"landscape",slides:1,blocks:[{t:"slides",slides:S},{t:"note",lines:note}]};
 }
-const VUES=[["hoja","Hoja de sensibilización",dHoja],["plan","Plan de aula",dPlan],["ficha","Ficha pedagógica",dFicha],["actividades","Actividades",dActs],["diapositivas","Diapositivas",dDiapos]];
+function dConsignes(s){
+  const c=ctx(s),{m,n}=c,E=etapes(s);
+  const verbe=m.oral?(m.tipo==="Audio"?"Écoutez":"Regardez"):"Observez";
+  const R=[
+   [[`#1. ${E[0].nom}`,`${E[0].d} min`],[`« ${verbe} bien le document. ${m.q} »`,`« Maintenant, ${c.consigne.charAt(0).toLowerCase()+c.consigne.slice(1)} »`],["- Montrer le document une première fois, sans explication.","- Distribuer la fiche de repérage avant le deuxième passage."]],
+   [[`#2. ${E[1].nom}`,`${E[1].d} min`],["« Lisez les phrases soulignées. Elles parlent du passé, du présent ou du futur ? »","« Complétez la règle : le futur proche = … + … »"],["- Écrire la règle au tableau : aller au présent + infinitif.","- Montrer la conjugaison : je vais, tu vas, il / elle / on va."]],
+   [[`#3. ${E[2].nom}`,`${E[2].d} min`],[`« Travaillez à deux. ${n.exo.t}. »`,`« Exemple : ${plain(n.ex[0])} »`],["- Faire le premier exemple avec la classe.",`- Corriger au tableau. Corrigé : ${n.exo.c}`]],
+   [[`#4. ${E[3].nom}`,`${E[3].d} min`],[`« ${n.prod.c} »`,`« Commencez par : ${n.prod.m} »`],["- Donner un modèle à voix haute avant de commencer.","- Circuler et aider ; noter les erreurs fréquentes."]],
+   [[`#5. ${E[4].nom}`,`${E[4].d} min`],["« Avant de sortir, dites une phrase au futur proche. »","« Par exemple : Demain, je vais… »"],["- Écouter chaque apprenant.","- Corriger l'erreur la plus fréquente."]]
+  ];
+  return {titre:"Consignes",nom:"consignes",orient:"portrait",blocks:[
+   {t:"note",lines:["#Qué son las consignas:","Son las instrucciones que la docente dice a los alumnos en cada actividad, en francés simple: verbo en imperativo, frase corta y un ejemplo."]},
+   {t:"table",size:9.5,w:[.2,.45,.35],head:["ÉTAPE","CONSIGNE (à dire aux apprenants)","CE QUE FAIT L'ENSEIGNANT(E)"],rows:R},
+   {t:"note",lines:["#Conseils :","- Une consigne = une action. Phrases courtes.","- Montrer un exemple avant de commencer.","- Vérifier la compréhension : « Qu'est-ce qu'on fait ? »"]}]};
+}
+const VUES=[["hoja","Hoja de sensibilización",dHoja],["plan","Plan de séance",dPlan],["ficha","Ficha pedagógica",dFicha],["diapositivas","Diapositivas",dDiapos],["consignas","Consignas",dConsignes],["actividades","Actividades",dActs]];
 
 /* ---------- HTML renderer ---------- */
 const ln=x=>x.startsWith("#")?`<div class="ln b">${hl(x.slice(1))}</div>`:x.startsWith("- ")?`<div class="ln bl">${hl(x.slice(2))}</div>`:`<div class="ln">${hl(x)}</div>`;
@@ -468,8 +483,8 @@ function draw(pdf,d){
 /* ---------- Page ---------- */
 if(typeof document!=="undefined"){
   const $=id=>document.getElementById(id);
-  let s={mat:"chanson",niveau:"A1",duree:40,eleves:25,facil:1,publico:"adolescents",proj:1,curso:"",fecha:"",ecole:"",prof:"",lien:"",phrases:""};
-  try{Object.assign(s,JSON.parse(localStorage.getItem("tfp2")||"{}"))}catch(e){}
+  let s={mat:"chanson",niveau:"A1",duree:30,eleves:25,facil:1,publico:"adolescents",proj:1,curso:"",fecha:"",ecole:"",prof:"",lien:"",phrases:""};
+  try{Object.assign(s,JSON.parse(localStorage.getItem("tfp3")||"{}"))}catch(e){}
   let vue="hoja";
   let dlP=null;try{if(window.claude&&window.claude.use)dlP=window.claude.use("downloads").catch(()=>null)}catch(e){}
   $("mats").innerHTML=MATS.map(m=>`<button type="button" class="mat" data-m="${m.id}"><b>${m.es}</b><span>${m.tipo}</span></button>`).join("");
@@ -489,7 +504,7 @@ if(typeof document!=="undefined"){
     const v=VUES.find(x=>x[0]===vue)||VUES[0],d=v[2](s);
     $("view").innerHTML=`<div class="bar"><h3>${esc(d.titre)}</h3><div class="btns"><button type="button" class="btn solid" data-a="pdf">Descargar PDF</button><button type="button" class="btn" data-a="copy">Copiar texto</button></div></div><div id="doc">${html(d)}</div>`;
     $("sum").textContent=`${m.es} · ${s.niveau} · ${s.duree} min · ${s.eleves} alumnos`;
-    try{localStorage.setItem("tfp2",JSON.stringify(s))}catch(e){}
+    try{localStorage.setItem("tfp3",JSON.stringify(s))}catch(e){}
   }
   function lire(){
     s.duree=+$("duree").value;s.facil=+$("facil").value;s.publico=$("publico").value;
