@@ -183,7 +183,7 @@ table.cj td:nth-child(3){background:#E7EBFB}
   <header class="hero">
     <p class="eyebrow">Clase de francés · Le futur proche</p>
     <h1>Je <mark>vais préparer</mark> ma classe.</h1>
-    <p class="lead">Elige un material auténtico, cuenta cómo es tu clase y descarga en PDF lo que pide el examen: plan de séance, fiche pédagogique, diapositives y feuille de consignes.</p>
+    <p class="lead">Elige un material auténtico, cuenta cómo es tu clase y descarga en PDF lo que pide el examen: plan de séance, fiche pédagogique y feuille de consignes.</p>
   </header>
 
   <section class="step" aria-labelledby="h-1">
@@ -220,10 +220,10 @@ table.cj td:nth-child(3){background:#E7EBFB}
 
   <section class="step" aria-labelledby="h-3">
     <div class="step-h"><span class="num">3</span><h2 id="h-3">Revisa y descarga tus documentos</h2></div>
-    <p class="hint">Salen en francés, listos para entregar. Los cuatro primeros son los que pide el examen.</p>
+    <p class="hint">Salen en francés, listos para entregar. Los tres primeros son los que pide el examen; las diapositivas van aparte, en Canva.</p>
     <nav class="tabs" role="tablist" aria-label="Documentos" id="tabs"></nav>
     <div id="view"></div>
-    <p class="small">Si no pegaste frases reales, las de la hoja y las diapositivas son ejemplos de formato: cámbialas por las de tu material.</p>
+    <p class="small">Si no pegaste frases reales, las de la hoja para alumnos son ejemplos de formato: cámbialas por las de tu material.</p>
   </section>
 
   <div class="dock">
@@ -430,7 +430,7 @@ function dConsignes(s){
    {t:"table",size:9.5,w:[.2,.45,.35],head:["ÉTAPE","CONSIGNE (à dire aux apprenants)","CE QUE FAIT L'ENSEIGNANT(E)"],rows:R},
    {t:"note",pdf:1,lines:["#Conseils :","- Une consigne = une action. Phrases courtes.","- Montrer un exemple avant de commencer.","- Vérifier la compréhension : « Qu'est-ce qu'on fait ? »"]}]};
 }
-const VUES=[["plan","Plan de séance",dPlan],["ficha","Fiche pédagogique",dFicha],["diapositivas","Diapositives",dDiapos],["consignas","Feuille de consignes",dConsignes],["hoja","Hoja para alumnos",dHoja],["actividades","Juegos extra",dActs]];
+const VUES=[["plan","Plan de séance",dPlan],["ficha","Fiche pédagogique",dFicha],["consignas","Feuille de consignes",dConsignes],["hoja","Hoja para alumnos",dHoja],["actividades","Juegos extra",dActs]];
 
 /* ---------- HTML renderer ---------- */
 const ln=x=>x.startsWith("#")?`<div class="ln b">${hl(x.slice(1))}</div>`:x.startsWith("- ")?`<div class="ln bl">${hl(x.slice(2))}</div>`:`<div class="ln">${hl(x)}</div>`;
