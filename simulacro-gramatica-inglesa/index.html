@@ -90,7 +90,7 @@ table.gen th{background:var(--bg);width:200px;font-weight:600}
   <!-- Start -->
   <section id="start">
     <div class="box">
-      <p style="color:var(--text)">Cuestionario de práctica de 15 preguntas de opción múltiple.</p>
+      <p style="color:var(--text)">Cuestionario de práctica de 15 preguntas: opción múltiple, verdadero/falso y completar. Las preguntas cambian en cada intento.</p>
       <p>Intentos permitidos: ilimitados</p>
       <p>Límite de tiempo: 20 minutos</p>
       <p>Método de calificación: Calificación más alta</p>
@@ -157,7 +157,7 @@ table.gen th{background:var(--bg);width:200px;font-weight:600}
 </div>
 
 <script>
-const Q=[
+const MC=[
 {t:"Choose the correct option (mixed conditional): <i>If I had accepted that job offer, I ______ in Santa Cruz now.</i>",o:["would have lived","would be living","will live","had lived"],a:1,f:"<b>Mixed conditional</b>: condición en el pasado (<i>If + past perfect</i>) con resultado en el presente (<i>would + infinitivo</i>, aquí continuo por <i>now</i>)."},
 {t:"Choose the correct option (inversion): <i>Hardly ______ when the phone rang.</i>",o:["I had sat down","had I sat down","did I sit down","I sat down"],a:1,f:"Con adverbios negativos al inicio (<i>Hardly, Scarcely, No sooner</i>) hay <b>inversión</b>: auxiliar + sujeto. <i>Hardly … when</i> va con past perfect."},
 {t:"Complete the sentence: <i>I wish I ______ to the party last night. Everyone says it was great.</i>",o:["went","would go","had gone","have gone"],a:2,f:"Para lamentar algo del <b>pasado</b>: <i>wish + past perfect</i>."},
@@ -174,52 +174,106 @@ const Q=[
 {t:"Complete the sentence: <i>I'll never forget ______ Machu Picchu for the first time.</i>",o:["to see","seeing","see","having saw"],a:1,f:"<i>Forget + -ing</i> = recordar una experiencia pasada. (<i>Forget + to</i> = olvidarse de hacer algo.)"},
 {t:"Complete the sentence: <i>By the end of this year, I ______ my degree.</i>",o:["will finish","am finishing","will have finished","have finished"],a:2,f:"<i>By + momento futuro</i> pide <b>future perfect</b> (<i>will have + participio</i>): la acción estará terminada antes de ese momento."}
 ];
+const TF=[
+{t:"<i>\"Hardly had I arrived when it started to rain.\"</i> This sentence is grammatically correct.",a:0,f:"Correcto: tras <i>Hardly</i> al inicio se invierte el auxiliar y el sujeto (<i>had I arrived</i>)."},
+{t:"In <i>\"She suggested that he goes to the doctor\"</i>, <b>goes</b> is the correct subjunctive form.",a:1,f:"Falso: después de <i>suggest that</i> va el subjuntivo en forma base: <i>that he <b>go</b></i>."},
+{t:"In formal English, <b>whom</b> can follow a preposition: <i>\"the person to whom I wrote\"</i>.",a:0,f:"Verdadero: en registro formal se usa <i>preposición + whom</i> para personas."},
+{t:"Non-defining relative clauses can begin with <b>that</b>.",a:1,f:"Falso: las cláusulas explicativas (entre comas) usan <i>who/which</i>, nunca <i>that</i>."},
+{t:"<i>\"I wish I would know the answer.\"</i> is the correct way to express a wish about the present.",a:1,f:"Falso: para un deseo sobre el presente se usa <i>wish + past simple</i>: <i>I wish I <b>knew</b></i>."},
+{t:"The future perfect is formed with <b>will + have + past participle</b>.",a:0,f:"Verdadero: <i>I will have finished</i>."},
+{t:"In <i>\"My brother seems tired\"</i>, <b>tired</b> is a direct object.",a:1,f:"Falso: <i>seem</i> es copulativo; <i>tired</i> es <b>complemento del sujeto</b>."},
+{t:"<i>\"Stop smoking\"</i> and <i>\"stop to smoke\"</i> have the same meaning.",a:1,f:"Falso: <i>stop smoking</i> = dejar de fumar; <i>stop to smoke</i> = detenerse para fumar."},
+{t:"In reported speech, <b>tomorrow</b> usually changes to <b>the next day</b> or <b>the following day</b>.",a:0,f:"Verdadero: las referencias de tiempo cambian en estilo indirecto."},
+{t:"Stative verbs such as <b>know</b> are not normally used in continuous forms, so <i>\"I am knowing\"</i> is incorrect.",a:0,f:"Verdadero: los verbos de estado no suelen ir en forma continua: <i>I know</i>."},
+{t:"<b>Must have + past participle</b> expresses a strong deduction about the past.",a:0,f:"Verdadero: <i>He must have left</i> = estoy casi seguro de que se fue."},
+{t:"In <i>\"Swimming is good exercise\"</i>, the gerund <b>swimming</b> functions as the subject.",a:0,f:"Verdadero: el gerundio funciona como sustantivo y aquí es el sujeto."},
+{t:"<i>\"If I would have known, I would have come.\"</i> is correct standard English for the third conditional.",a:1,f:"Falso: en la cláusula con <i>if</i> va past perfect: <i>If I <b>had known</b>, I would have come</i>."},
+{t:"An intransitive verb takes a direct object.",a:1,f:"Falso: los verbos intransitivos (<i>arrive, sleep</i>) no llevan objeto directo."},
+{t:"<i>\"The house was built in 1990.\"</i> is in the passive voice.",a:0,f:"Verdadero: <i>was + participio</i> = voz pasiva en pasado simple."}
+];
+const FI=[
+{t:"Complete with the correct form of the verb: <i>If it ______ (rain) tomorrow, we will stay at home.</i>",a:["rains"],f:"Primer condicional: <i>If + present simple</i>."},
+{t:"Complete with the correct form of the verb: <i>By the time we arrived, the guests ______ (leave).</i>",a:["had left","had already left"],f:"Acción anterior a otra del pasado: <b>past perfect</b>."},
+{t:"Complete with a relative word: <i>This is the house ______ my grandfather was born.</i>",a:["where","in which"],f:"Para lugares: <b>where</b> (o <i>in which</i>)."},
+{t:"Complete with the passive form: <i>The bridge ______ (build) in 1950.</i>",a:["was built"],f:"Pasiva en pasado simple: <i>was + participio</i>."},
+{t:"Complete with the correct form of the verb: <i>She is used to ______ (work) at night.</i>",a:["working"],f:"<i>Be used to</i> + <b>-ing</b>."},
+{t:"Complete with the correct form: <i>I'd rather you ______ (not / smoke) in here.</i>",a:["didn't smoke","did not smoke"],f:"<i>Would rather + sujeto + past simple</i> para otra persona."},
+{t:"Complete with one auxiliary verb: <i>Not only ______ she speak French, but she also speaks German.</i>",a:["does"],f:"Inversión tras <i>Not only</i>: auxiliar + sujeto (<i>does she speak</i>)."},
+{t:"Complete in reported speech: <i>\"Can you help me?\" → He asked me if I ______ help him.</i>",a:["could"],f:"En estilo indirecto <i>can</i> → <b>could</b>."},
+{t:"Complete with a preposition: <i>I have been studying English ______ 2019.</i>",a:["since"],f:"<b>Since</b> + punto de inicio; <i>for</i> + duración."},
+{t:"Complete with the correct form of the verb: <i>Had I known, I ______ (tell) you.</i>",a:["would have told","would've told"],f:"Tercer condicional con inversión: <i>Had I known = If I had known</i> → <b>would have told</b>."},
+{t:"Complete with a relative word: <i>The boy ______ bike was stolen is very sad.</i>",a:["whose"],f:"Posesión: <b>whose</b>."},
+{t:"Complete with the correct form of the verb: <i>She made me ______ (wait) for an hour.</i>",a:["wait"],f:"<i>Make + objeto + infinitivo sin to</i>."},
+{t:"Complete with the correct form of the verb: <i>It's time we ______ (go) home.</i>",a:["went"],f:"<i>It's time + sujeto + past simple</i>."},
+{t:"Complete with the comparative form: <i>This exam is ______ (difficult) than the last one.</i>",a:["more difficult"],f:"Adjetivos largos: <b>more + adjetivo</b>."},
+{t:"Complete with the correct form of the verb: <i>I look forward to ______ (hear) from you.</i>",a:["hearing"],f:"<i>Look forward to</i> + <b>-ing</b> (aquí <i>to</i> es preposición)."}
+];
+const N_MC=6,N_TF=4,N_FI=5;
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function build(){
+  const mc=shuf(MC).slice(0,N_MC).map(q=>{const idx=shuf(q.o.map((_,i)=>i));return {k:"mc",t:q.t,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),f:q.f}});
+  const tf=shuf(TF).slice(0,N_TF).map(q=>({k:"tf",t:q.t,o:["Verdadero","Falso"],a:q.a,f:q.f}));
+  const fi=shuf(FI).slice(0,N_FI).map(q=>({k:"fi",t:q.t,a:q.a,f:q.f}));
+  return shuf(mc.concat(tf,fi));
+}
+const norm=x=>(x||"").toLowerCase().replace(/[’`´]/g,"'").replace(/\s+/g," ").trim().replace(/[.!]+$/,"").trim();
+function isRight(q,a){if(a===null||a==="")return false;return q.k==="fi"?q.a.map(norm).includes(norm(a)):a===q.a}
+const has=a=>a!==null&&a!=="";
+let Q=[];
 const L="abcd";
 let ans=[],flags=[],cur=0,left=1200,tick=null,done=false;
 function el(id){return document.getElementById(id)}
 function show(id){["start","attempt","summary","review"].forEach(s=>el(s).classList.toggle("hide",s!==id));window.scrollTo(0,0)}
 function openStart(){modal("Iniciar intento","El cuestionario tiene un límite de tiempo de 20 minutos. El tiempo empezará a contar desde que inicie el intento y debe enviarlo antes de que expire.","Iniciar intento",begin)}
-function begin(){closeM();ans=Array(Q.length).fill(null);flags=Array(Q.length).fill(false);cur=0;left=1200;done=false;clearInterval(tick);tick=setInterval(()=>{left--;drawTimer();if(left<=0){clearInterval(tick);submit()}},1000);drawTimer();show("attempt");render()}
+function begin(){closeM();Q=build();ans=Array(Q.length).fill(null);flags=Array(Q.length).fill(false);cur=0;left=1200;done=false;clearInterval(tick);tick=setInterval(()=>{left--;drawTimer();if(left<=0){clearInterval(tick);submit()}},1000);drawTimer();show("attempt");render()}
 function drawTimer(){const m=Math.floor(left/60),s=left%60;el("timer").textContent="Tiempo restante 0:"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");el("timer").classList.toggle("low",left<120)}
 function info(i,state){return `<div class="info"><div class="no">Pregunta <b>${i+1}</b></div><div class="state">${state}</div><div class="state">Puntúa como 1,00</div>${done?"":`<button class="flagq" onclick="toggleFlag(${i})">${flags[i]?"🚩 Quitar marca":"⚑ Marcar pregunta"}</button>`}</div>`}
+function esc(x){return String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function render(){
   const q=Q[cur],i=cur;
-  let h=`<div class="que">${info(i,ans[i]===null?"Sin responder aún":"Respuesta guardada")}<div class="content"><div class="formulation"><div class="qtext">${q.t}</div><div class="prompt">Seleccione una:</div><div class="answer">`;
-  q.o.forEach((o,j)=>{h+=`<label><input type="radio" name="q" ${ans[i]===j?"checked":""} onchange="pick(${j})"><span class="lt">${L[j]}.</span><span>${o}</span></label>`});
-  h+=`</div>${ans[i]!==null?`<button class="clear" onclick="pick(null)">Borrar mi elección</button>`:""}</div></div></div>`;
+  let h=`<div class="que">${info(i,has(ans[i])?"Respuesta guardada":"Sin responder aún")}<div class="content"><div class="formulation"><div class="qtext">${q.t}</div>`;
+  if(q.k==="fi"){h+=`<div class="prompt">Respuesta: <input type="text" id="fin" value="${esc(ans[i]||"")}" autocomplete="off" spellcheck="false" style="padding:5px 8px;border:1px solid #8f959e;border-radius:4px;font-size:15px;width:min(260px,100%)" oninput="ans[cur]=this.value;nav()"></div>`}
+  else{h+=`<div class="prompt">Seleccione una:</div><div class="answer">`;
+    q.o.forEach((o,j)=>{h+=`<label><input type="radio" name="q" ${ans[i]===j?"checked":""} onchange="pick(${j})">${q.k==="mc"?`<span class="lt">${L[j]}.</span>`:""}<span>${o}</span></label>`});
+    h+=`</div>${ans[i]!==null?`<button class="clear" onclick="pick(null)">Borrar mi elección</button>`:""}`}
+  h+=`</div></div></div>`;
   el("qarea").innerHTML=h;
   el("prev").disabled=cur===0;
   el("next").textContent=cur===Q.length-1?"Terminar intento…":"Página siguiente";
   nav();
 }
-function nav(){el("navbtns").innerHTML=Q.map((_,i)=>`<button class="qn ${ans[i]!==null?"answered":""} ${i===cur?"cur":""} ${flags[i]?"flag":""}" onclick="go(${i})" title="Pregunta ${i+1}"><span class="n">${i+1}</span><span class="st"></span></button>`).join("")}
+function nav(){el("navbtns").innerHTML=Q.map((_,i)=>`<button class="qn ${has(ans[i])?"answered":""} ${i===cur?"cur":""} ${flags[i]?"flag":""}" onclick="go(${i})" title="Pregunta ${i+1}"><span class="n">${i+1}</span><span class="st"></span></button>`).join("")}
 function pick(j){ans[cur]=j;render()}
 function toggleFlag(i){flags[i]=!flags[i];render()}
 function go(i){if(i<0||i>=Q.length)return;cur=i;show("attempt");render()}
 function nextBtn(){cur===Q.length-1?showSummary():go(cur+1)}
 function showSummary(){
-  el("sumtable").querySelector("tbody").innerHTML=Q.map((_,i)=>`<tr><td><a href="#" onclick="go(${i});return false" style="color:var(--blue)">${i+1}</a>${flags[i]?" 🚩":""}</td><td>${ans[i]===null?"Sin responder aún":"Respuesta guardada"}</td></tr>`).join("");
+  el("sumtable").querySelector("tbody").innerHTML=Q.map((_,i)=>`<tr><td><a href="#" onclick="go(${i});return false" style="color:var(--blue)">${i+1}</a>${flags[i]?" 🚩":""}</td><td>${has(ans[i])?"Respuesta guardada":"Sin responder aún"}</td></tr>`).join("");
   show("summary");
 }
 function backToAttempt(){go(cur)}
-function askSubmit(){const n=ans.filter(a=>a===null).length;modal("Confirmación",(n?`Tiene ${n} pregunta(s) sin responder. `:"")+"Una vez que envíe sus respuestas, no podrá cambiarlas.","Enviar todo y terminar",()=>{closeM();submit()})}
+function askSubmit(){const n=ans.filter(a=>!has(a)).length;modal("Confirmación",(n?`Tiene ${n} pregunta(s) sin responder. `:"")+"Una vez que envíe sus respuestas, no podrá cambiarlas.","Enviar todo y terminar",()=>{closeM();submit()})}
 function submit(){
   clearInterval(tick);done=true;
-  const ok=Q.filter((q,i)=>ans[i]===q.a).length;
+  const ok=Q.filter((q,i)=>isRight(q,ans[i])).length;
   const used=1200-left,mm=Math.floor(used/60),ss=used%60;
   const now=new Date(),d=now.toLocaleDateString("es-BO",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+", "+now.toLocaleTimeString("es-BO",{hour:"2-digit",minute:"2-digit"});
   const nota=Math.round(ok/Q.length*100);
   el("revtable").innerHTML=`<tr><th>Comenzado el</th><td>${d}</td></tr><tr><th>Estado</th><td>Finalizado</td></tr><tr><th>Tiempo empleado</th><td>${mm} minutos ${ss} segundos</td></tr><tr><th>Puntos</th><td>${ok},00/${Q.length},00</td></tr><tr><th>Calificación</th><td><b>${nota},00</b> de 100,00 (${nota>=51?"aprobado":"no aprobado: se necesita 51"})</td></tr>`;
   let h="";
   Q.forEach((q,i)=>{
-    const a=ans[i],right=a===q.a;
-    const st=a===null?"Sin contestar":right?"Correcta":"Incorrecta";
-    h+=`<div class="que" id="rq${i}"><div class="info"><div class="no">Pregunta <b>${i+1}</b></div><div class="state">${st}</div><div class="state">Puntúa ${right?"1,00":"0,00"} sobre 1,00</div></div><div class="content"><div class="formulation"><div class="qtext">${q.t}</div><div class="prompt">Seleccione una:</div><div class="answer">`;
-    q.o.forEach((o,j)=>{const cls=j===a?(right?"right":"wrong"):"";const mk=j===a?(right?'<span class="mark r">✓</span>':'<span class="mark w">✗</span>'):"";h+=`<label class="${cls}"><input type="radio" disabled ${j===a?"checked":""}><span class="lt">${L[j]}.</span><span>${o}</span>${mk}</label>`});
-    h+=`</div></div><div class="feedback">${q.f}<div class="ra">La respuesta correcta es: <b>${q.o[q.a]}</b></div></div></div></div>`;
+    const a=ans[i],right=isRight(q,a);
+    const st=!has(a)?"Sin contestar":right?"Correcta":"Incorrecta";
+    h+=`<div class="que" id="rq${i}"><div class="info"><div class="no">Pregunta <b>${i+1}</b></div><div class="state">${st}</div><div class="state">Puntúa ${right?"1,00":"0,00"} sobre 1,00</div></div><div class="content"><div class="formulation"><div class="qtext">${q.t}</div>`;
+    if(q.k==="fi"){h+=`<div class="prompt">Respuesta: <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:${right?"var(--okbg)":"var(--badbg)"}">${has(a)?esc(a):"—"}</span> ${right?'<span class="mark r">✓</span>':'<span class="mark w">✗</span>'}</div>`}
+    else{h+=`<div class="prompt">Seleccione una:</div><div class="answer">`;
+      q.o.forEach((o,j)=>{const cls=j===a?(right?"right":"wrong"):"";const mk=j===a?(right?'<span class="mark r">✓</span>':'<span class="mark w">✗</span>'):"";h+=`<label class="${cls}"><input type="radio" disabled ${j===a?"checked":""}>${q.k==="mc"?`<span class="lt">${L[j]}.</span>`:""}<span>${o}</span>${mk}</label>`});
+      h+=`</div>`}
+    const corr=q.k==="fi"?q.a.join(" / "):q.o[q.a];
+    h+=`</div><div class="feedback">${q.f}<div class="ra">La respuesta correcta es: <b>${corr}</b></div></div></div></div>`;
   });
   el("revarea").innerHTML=h;
-  el("revnav").innerHTML=Q.map((q,i)=>`<button class="qn ${ans[i]===q.a?"ok":"bad"}" onclick="document.getElementById('rq${i}').scrollIntoView({behavior:'smooth'})"><span class="n">${i+1}</span><span class="st"></span></button>`).join("");
+  el("revnav").innerHTML=Q.map((q,i)=>`<button class="qn ${isRight(q,ans[i])?"ok":"bad"}" onclick="document.getElementById('rq${i}').scrollIntoView({behavior:'smooth'})"><span class="n">${i+1}</span><span class="st"></span></button>`).join("");
   try{const b=+localStorage.getItem("gmt_best")||0;if(nota>b)localStorage.setItem("gmt_best",nota)}catch(e){}
   show("review");
 }
