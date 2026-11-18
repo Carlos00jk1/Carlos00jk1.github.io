@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulacro – Gramática Inglesa</title>
+<style>
+:root{--blue:#0f6cbf;--blue-d:#0a5096;--bg:#f8f9fa;--border:#dee2e6;--text:#1d2125;--muted:#6a737b;--qbg:#e7f3f5;--qborder:#b8dce2;--ok:#357a32;--okbg:#d7e4d6;--bad:#ca3120;--badbg:#f4d6d2;--warn:#f0ad4e}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:15px;color:var(--text);background:#fff}
+header.nav{height:56px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:16px;position:sticky;top:0;z-index:5;box-shadow:0 2px 4px rgba(0,0,0,.08)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--blue-d)}
+.logo .crest{width:32px;height:32px;border-radius:50%;background:#7a1f2b;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.nav a{color:var(--text);text-decoration:none;font-size:14px}
+.nav .sp{flex:1}
+.avatar{width:32px;height:32px;border-radius:50%;background:#ced4da;display:grid;place-items:center;font-size:13px;font-weight:600;color:#495057}
+.page{max-width:1200px;margin:0 auto;padding:20px 18px 60px}
+.crumbs{font-size:13px;color:var(--muted);margin-bottom:6px}
+.crumbs span{color:var(--blue)}
+h1{font-size:24px;font-weight:400;margin:4px 0 18px}
+.layout{display:flex;gap:24px;align-items:flex-start}
+main{flex:1;min-width:0}
+aside{width:260px;flex-shrink:0;position:sticky;top:76px}
+.block{border:1px solid var(--border);border-radius:6px;background:#fff;padding:14px}
+.block h5{margin:0 0 10px;font-size:15px;font-weight:600}
+.navbtns{display:flex;flex-wrap:wrap;gap:6px}
+.qn{width:32px;height:40px;border:1px solid #8f959e;border-radius:3px;background:#fff;font-size:13px;cursor:pointer;position:relative;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+.qn .n{height:24px;line-height:24px}
+.qn .st{width:100%;height:14px;border-top:1px solid #8f959e;background:#fff}
+.qn.answered .st{background:#adb5bd}
+.qn.cur{outline:2px solid var(--blue);outline-offset:1px}
+.qn.flag::after{content:"";position:absolute;top:-4px;right:-4px;border-left:9px solid transparent;border-top:9px solid var(--bad)}
+.qn.ok .st{background:var(--ok)} .qn.bad .st{background:var(--bad)}
+.timer{margin-top:12px;font-size:14px;border:1px solid var(--border);border-radius:4px;padding:6px 10px;display:inline-block}
+.timer.low{color:var(--bad);border-color:var(--bad)}
+.linkbtn{background:none;border:none;color:var(--blue);padding:0;margin-top:12px;font-size:14px;cursor:pointer;text-decoration:underline;display:block}
+.que{display:flex;gap:14px;margin-bottom:22px}
+.info{width:138px;flex-shrink:0;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px;font-size:13px;height:fit-content}
+.info .no{font-size:15px;margin-bottom:4px} .info .no b{font-size:20px}
+.info .state{color:var(--muted);margin-bottom:4px}
+.info .flagq{margin-top:8px;background:none;border:none;color:var(--blue);font-size:13px;padding:0;cursor:pointer;display:flex;gap:4px;align-items:center}
+.content{flex:1;min-width:0}
+.formulation{background:var(--qbg);border:1px solid var(--qborder);border-radius:4px;padding:14px 16px}
+.qtext{margin-bottom:12px;line-height:1.5}
+.prompt{font-size:14px;margin-bottom:6px}
+.answer label{display:flex;gap:8px;padding:5px 6px;border-radius:3px;cursor:pointer;align-items:flex-start;line-height:1.4}
+.answer label:hover{background:rgba(255,255,255,.5)}
+.answer input{margin-top:3px}
+.answer .lt{min-width:18px}
+.answer label.right{background:var(--okbg)} .answer label.wrong{background:var(--badbg)}
+.mark{margin-left:6px;font-weight:700} .mark.r{color:var(--ok)} .mark.w{color:var(--bad)}
+.clear{margin-top:8px;background:none;border:none;color:var(--blue);font-size:13px;cursor:pointer;padding:0}
+.feedback{margin-top:10px;background:#fcefdc;border:1px solid #f7dbaf;border-radius:4px;padding:12px 16px;line-height:1.5}
+.feedback .ra{margin-top:6px}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
+.btn{border:1px solid transparent;border-radius:6px;padding:7px 14px;font-size:15px;cursor:pointer}
+.btn-p{background:var(--blue);color:#fff} .btn-p:hover{background:var(--blue-d)}
+.btn-s{background:#ced4da;color:var(--text)} .btn-s:hover{background:#b8bfc6}
+.btn[disabled]{visibility:hidden}
+table.gen{border-collapse:collapse;width:100%;margin:10px 0 18px}
+table.gen th,table.gen td{border:1px solid var(--border);padding:8px 10px;text-align:left;font-size:14px}
+table.gen th{background:var(--bg);width:200px;font-weight:600}
+.box{border:1px solid var(--border);border-radius:6px;padding:20px;text-align:center;max-width:640px;margin:0 auto}
+.box p{color:var(--muted)}
+.center{text-align:center}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:20}
+.overlay.on{display:flex}
+.modal{background:#fff;border-radius:6px;width:min(480px,92vw);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.modal h3{margin:0;padding:14px 18px;border-bottom:1px solid var(--border);font-size:18px;font-weight:400}
+.modal p{padding:14px 18px;margin:0}
+.modal .ft{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.hide{display:none!important}
+@media (max-width:820px){.layout{flex-direction:column-reverse}aside{width:100%;position:static}.que{flex-direction:column}.info{width:100%;display:flex;gap:14px;flex-wrap:wrap;align-items:center}.info .no{margin:0}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="logo"><div class="crest">USFX</div>Campus Virtual</div>
+  <a href="#" onclick="return false">Página principal</a>
+  <a href="#" onclick="return false">Área personal</a>
+  <a href="#" onclick="return false">Mis cursos</a>
+  <div class="sp"></div>
+  <div class="avatar">GC</div>
+</header>
+
+<div class="page">
+  <div class="crumbs">Mis cursos / <span>GMT621 – Gramática Inglesa</span> / Evaluación / <span>Simulacro</span></div>
+  <h1>Simulacro – Gramática Inglesa</h1>
+
+  <!-- Start -->
+  <section id="start">
+    <div class="box">
+      <p style="color:var(--text)">Cuestionario de práctica de 15 preguntas de opción múltiple.</p>
+      <p>Intentos permitidos: ilimitados</p>
+      <p>Límite de tiempo: 20 minutos</p>
+      <p>Método de calificación: Calificación más alta</p>
+      <p id="best" class="hide"></p>
+      <button class="btn btn-p" onclick="openStart()">Intente resolver el cuestionario ahora</button>
+    </div>
+  </section>
+
+  <!-- Attempt -->
+  <div class="layout hide" id="attempt">
+    <main>
+      <div id="qarea"></div>
+      <div class="actions">
+        <button class="btn btn-s" id="prev" onclick="go(cur-1)">Página anterior</button>
+        <button class="btn btn-p" id="next" onclick="nextBtn()">Página siguiente</button>
+      </div>
+    </main>
+    <aside>
+      <div class="block">
+        <h5>Navegación por el cuestionario</h5>
+        <div class="navbtns" id="navbtns"></div>
+        <div class="timer" id="timer">Tiempo restante 0:20:00</div>
+        <button class="linkbtn" onclick="showSummary()">Terminar intento…</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Summary -->
+  <section id="summary" class="hide">
+    <h2 style="font-weight:400;font-size:20px">Resumen del intento</h2>
+    <table class="gen" id="sumtable"><thead><tr><th>Pregunta</th><th style="width:auto">Estado</th></tr></thead><tbody></tbody></table>
+    <div class="center">
+      <button class="btn btn-s" onclick="backToAttempt()">Volver al intento</button>
+      <p style="color:var(--muted);font-size:14px">Una vez enviado, no podrá cambiar sus respuestas de este intento.</p>
+      <button class="btn btn-p" onclick="askSubmit()">Enviar todo y terminar</button>
+    </div>
+  </section>
+
+  <!-- Review -->
+  <div class="layout hide" id="review">
+    <main>
+      <table class="gen" id="revtable"></table>
+      <div id="revarea"></div>
+      <div class="center" style="margin-top:10px">
+        <button class="btn btn-p" onclick="restart()">Volver a intentar</button>
+      </div>
+    </main>
+    <aside>
+      <div class="block">
+        <h5>Navegación por el cuestionario</h5>
+        <div class="navbtns" id="revnav"></div>
+        <button class="linkbtn" onclick="restart()">Finalizar revisión</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="overlay" id="ov">
+  <div class="modal">
+    <h3 id="mt"></h3>
+    <p id="mb"></p>
+    <div class="ft"><button class="btn btn-s" onclick="closeM()">Cancelar</button><button class="btn btn-p" id="mok"></button></div>
+  </div>
+</div>
+
+<script>
+const Q=[
+{t:"Choose the correct option (mixed conditional): <i>If I had accepted that job offer, I ______ in Santa Cruz now.</i>",o:["would have lived","would be living","will live","had lived"],a:1,f:"<b>Mixed conditional</b>: condición en el pasado (<i>If + past perfect</i>) con resultado en el presente (<i>would + infinitivo</i>, aquí continuo por <i>now</i>)."},
+{t:"Choose the correct option (inversion): <i>Hardly ______ when the phone rang.</i>",o:["I had sat down","had I sat down","did I sit down","I sat down"],a:1,f:"Con adverbios negativos al inicio (<i>Hardly, Scarcely, No sooner</i>) hay <b>inversión</b>: auxiliar + sujeto. <i>Hardly … when</i> va con past perfect."},
+{t:"Complete the sentence: <i>I wish I ______ to the party last night. Everyone says it was great.</i>",o:["went","would go","had gone","have gone"],a:2,f:"Para lamentar algo del <b>pasado</b>: <i>wish + past perfect</i>."},
+{t:"Choose the correct option (subjunctive): <i>The professor insisted that every student ______ the essay by Friday.</i>",o:["submits","submit","submitted","will submit"],a:1,f:"Después de <i>insist, demand, suggest, recommend that…</i> se usa el <b>subjuntivo</b>: verbo en forma base, sin -s (<i>every student submit</i>)."},
+{t:"Choose the correct causative form: <i>I ______ my laptop repaired at a shop last week.</i>",o:["did","made","had","let"],a:2,f:"<b>Causativo</b>: <i>have + objeto + participio</i> cuando otra persona hace el trabajo por nosotros: <i>I had my laptop repaired</i>."},
+{t:"Complete with the correct passive reporting structure: <i>The suspect is believed ______ the country last night.</i>",o:["to leave","to have left","leaving","that he left"],a:1,f:"<i>Be believed / said / thought + <b>to have + participio</b></i> cuando la acción es anterior al momento en que se cree (<i>last night</i>)."},
+{t:"Report the sentence: <i>\"You must finish the essay,\" the professor told me.</i> → <i>The professor told me ______.</i>",o:["that I must to finish the essay","that I had to finish the essay","that I have had to finish the essay","that I had to finished the essay"],a:1,f:"En estilo indirecto, <i>must</i> (obligación) suele pasar a <b>had to</b> + infinitivo sin <i>to</i> extra y sin participio."},
+{t:"Choose the correct participle clause: <i>______ the report, she sent it to her supervisor.</i>",o:["Finishing","Having finished","Finished","To finish"],a:1,f:"<b>Having + participio</b> muestra que una acción terminó <i>antes</i> que la otra (primero terminó, luego envió)."},
+{t:"Which of the following is a <b>cleft sentence</b>?",o:["Gaby passed the grammar exam.","It was Gaby who passed the grammar exam.","Gaby, who studied hard, passed the exam.","The grammar exam was passed by Gaby."],a:1,f:"La oración hendida (<b>cleft sentence</b>) usa <i>It is/was … who/that…</i> para enfatizar un elemento (aquí, <i>Gaby</i>)."},
+{t:"Choose the correct formal relative structure: <i>The man ______ I spoke yesterday was very kind.</i>",o:["to who","to whom","whom to","to which"],a:1,f:"En registro formal la preposición va delante del relativo y, para personas, se usa <b>whom</b>: <i>to whom</i>."},
+{t:"In the sentence <i>\"The students <u>who passed the exam</u> celebrated.\"</i>, the underlined part is:",o:["an adverbial clause","a noun clause","a relative (adjective) clause modifying <i>students</i>","the main clause"],a:2,f:"Es una <b>cláusula relativa (adjetiva) especificativa</b>: modifica al sustantivo <i>students</i> e indica cuáles celebraron."},
+{t:"In the sentence <i>\"My sister became <u>a doctor</u>.\"</i>, the underlined phrase functions as:",o:["direct object","indirect object","subject complement","adverbial"],a:2,f:"Después de verbos copulativos (<i>be, become, seem</i>) el sintagma describe al sujeto: es <b>complemento del sujeto</b> (subject complement), no objeto directo."},
+{t:"Choose the correct modal perfect: <i>She can't ______ the email; she was offline all day.</i>",o:["have read","has read","had read","to have read"],a:0,f:"Deducción negativa sobre el pasado: <b>can't + have + participio</b>."},
+{t:"Complete the sentence: <i>I'll never forget ______ Machu Picchu for the first time.</i>",o:["to see","seeing","see","having saw"],a:1,f:"<i>Forget + -ing</i> = recordar una experiencia pasada. (<i>Forget + to</i> = olvidarse de hacer algo.)"},
+{t:"Complete the sentence: <i>By the end of this year, I ______ my degree.</i>",o:["will finish","am finishing","will have finished","have finished"],a:2,f:"<i>By + momento futuro</i> pide <b>future perfect</b> (<i>will have + participio</i>): la acción estará terminada antes de ese momento."}
+];
+const L="abcd";
+let ans=[],flags=[],cur=0,left=1200,tick=null,done=false;
+function el(id){return document.getElementById(id)}
+function show(id){["start","attempt","summary","review"].forEach(s=>el(s).classList.toggle("hide",s!==id));window.scrollTo(0,0)}
+function openStart(){modal("Iniciar intento","El cuestionario tiene un límite de tiempo de 20 minutos. El tiempo empezará a contar desde que inicie el intento y debe enviarlo antes de que expire.","Iniciar intento",begin)}
+function begin(){closeM();ans=Array(Q.length).fill(null);flags=Array(Q.length).fill(false);cur=0;left=1200;done=false;clearInterval(tick);tick=setInterval(()=>{left--;drawTimer();if(left<=0){clearInterval(tick);submit()}},1000);drawTimer();show("attempt");render()}
+function drawTimer(){const m=Math.floor(left/60),s=left%60;el("timer").textContent="Tiempo restante 0:"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");el("timer").classList.toggle("low",left<120)}
+function info(i,state){return `<div class="info"><div class="no">Pregunta <b>${i+1}</b></div><div class="state">${state}</div><div class="state">Puntúa como 1,00</div>${done?"":`<button class="flagq" onclick="toggleFlag(${i})">${flags[i]?"🚩 Quitar marca":"⚑ Marcar pregunta"}</button>`}</div>`}
+function render(){
+  const q=Q[cur],i=cur;
+  let h=`<div class="que">${info(i,ans[i]===null?"Sin responder aún":"Respuesta guardada")}<div class="content"><div class="formulation"><div class="qtext">${q.t}</div><div class="prompt">Seleccione una:</div><div class="answer">`;
+  q.o.forEach((o,j)=>{h+=`<label><input type="radio" name="q" ${ans[i]===j?"checked":""} onchange="pick(${j})"><span class="lt">${L[j]}.</span><span>${o}</span></label>`});
+  h+=`</div>${ans[i]!==null?`<button class="clear" onclick="pick(null)">Borrar mi elección</button>`:""}</div></div></div>`;
+  el("qarea").innerHTML=h;
+  el("prev").disabled=cur===0;
+  el("next").textContent=cur===Q.length-1?"Terminar intento…":"Página siguiente";
+  nav();
+}
+function nav(){el("navbtns").innerHTML=Q.map((_,i)=>`<button class="qn ${ans[i]!==null?"answered":""} ${i===cur?"cur":""} ${flags[i]?"flag":""}" onclick="go(${i})" title="Pregunta ${i+1}"><span class="n">${i+1}</span><span class="st"></span></button>`).join("")}
+function pick(j){ans[cur]=j;render()}
+function toggleFlag(i){flags[i]=!flags[i];render()}
+function go(i){if(i<0||i>=Q.length)return;cur=i;show("attempt");render()}
+function nextBtn(){cur===Q.length-1?showSummary():go(cur+1)}
+function showSummary(){
+  el("sumtable").querySelector("tbody").innerHTML=Q.map((_,i)=>`<tr><td><a href="#" onclick="go(${i});return false" style="color:var(--blue)">${i+1}</a>${flags[i]?" 🚩":""}</td><td>${ans[i]===null?"Sin responder aún":"Respuesta guardada"}</td></tr>`).join("");
+  show("summary");
+}
+function backToAttempt(){go(cur)}
+function askSubmit(){const n=ans.filter(a=>a===null).length;modal("Confirmación",(n?`Tiene ${n} pregunta(s) sin responder. `:"")+"Una vez que envíe sus respuestas, no podrá cambiarlas.","Enviar todo y terminar",()=>{closeM();submit()})}
+function submit(){
+  clearInterval(tick);done=true;
+  const ok=Q.filter((q,i)=>ans[i]===q.a).length;
+  const used=1200-left,mm=Math.floor(used/60),ss=used%60;
+  const now=new Date(),d=now.toLocaleDateString("es-BO",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+", "+now.toLocaleTimeString("es-BO",{hour:"2-digit",minute:"2-digit"});
+  const nota=Math.round(ok/Q.length*100);
+  el("revtable").innerHTML=`<tr><th>Comenzado el</th><td>${d}</td></tr><tr><th>Estado</th><td>Finalizado</td></tr><tr><th>Tiempo empleado</th><td>${mm} minutos ${ss} segundos</td></tr><tr><th>Puntos</th><td>${ok},00/${Q.length},00</td></tr><tr><th>Calificación</th><td><b>${nota},00</b> de 100,00 (${nota>=51?"aprobado":"no aprobado: se necesita 51"})</td></tr>`;
+  let h="";
+  Q.forEach((q,i)=>{
+    const a=ans[i],right=a===q.a;
+    const st=a===null?"Sin contestar":right?"Correcta":"Incorrecta";
+    h+=`<div class="que" id="rq${i}"><div class="info"><div class="no">Pregunta <b>${i+1}</b></div><div class="state">${st}</div><div class="state">Puntúa ${right?"1,00":"0,00"} sobre 1,00</div></div><div class="content"><div class="formulation"><div class="qtext">${q.t}</div><div class="prompt">Seleccione una:</div><div class="answer">`;
+    q.o.forEach((o,j)=>{const cls=j===a?(right?"right":"wrong"):"";const mk=j===a?(right?'<span class="mark r">✓</span>':'<span class="mark w">✗</span>'):"";h+=`<label class="${cls}"><input type="radio" disabled ${j===a?"checked":""}><span class="lt">${L[j]}.</span><span>${o}</span>${mk}</label>`});
+    h+=`</div></div><div class="feedback">${q.f}<div class="ra">La respuesta correcta es: <b>${q.o[q.a]}</b></div></div></div></div>`;
+  });
+  el("revarea").innerHTML=h;
+  el("revnav").innerHTML=Q.map((q,i)=>`<button class="qn ${ans[i]===q.a?"ok":"bad"}" onclick="document.getElementById('rq${i}').scrollIntoView({behavior:'smooth'})"><span class="n">${i+1}</span><span class="st"></span></button>`).join("");
+  try{const b=+localStorage.getItem("gmt_best")||0;if(nota>b)localStorage.setItem("gmt_best",nota)}catch(e){}
+  show("review");
+}
+function restart(){done=false;showBest();show("start")}
+function showBest(){try{const b=localStorage.getItem("gmt_best");if(b!==null){el("best").textContent="Su calificación más alta: "+b+",00 / 100,00";el("best").classList.remove("hide")}}catch(e){}}
+function modal(t,b,ok,fn){el("mt").textContent=t;el("mb").textContent=b;el("mok").textContent=ok;el("mok").onclick=fn;el("ov").classList.add("on")}
+function closeM(){el("ov").classList.remove("on")}
+showBest();
+</script>
+</body>
+</html>
